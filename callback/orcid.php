@@ -1,3 +1,6 @@
+<?PHP
+    session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -16,21 +19,18 @@
                     'client_secret' => '***REMOVED_ORCID_CLIENT_SECRET***',
                     'grant_type' => 'authorization_code',
                     'code' => $_GET["code"],
-                    'redirect_uri' => 'https://accounts.assembl.science/callback/orcid.php'
+                    'redirect_uri' => 'https://accounts.assembl.science/callback/orcid/'
                 )));
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                 $response = curl_exec($ch);
                 curl_close($ch);
                 if ($response !== false) {
                     if (isset($_SESSION["signin_return_key_as_json"]) && $_SESSION["signin_return_key_as_json"] == true) {
-                        ?>
-                        <h2>You are now signed in to Assembl.</h2>
-                        <p>This part hasn't been finished yet. We're working on it as we speak!</p>
-                        <br /><br />
-                        <p><i><small><?PHP print_r($_POST); ?></small></i></p>
-                        <?PHP
+                        ob_end_clean();
+                        echo $response;
                     }
                     else {
+                        $_SESSION["orcid_data"] = json_decode($response, true);
                         ?>
                         <h2>You are now signed in to Assembl.</h2>
                         <p>This part hasn't been finished yet. <a href="https://assembl.science">Return to the home page</a></p>
@@ -46,12 +46,20 @@
                     <?PHP
                 }
             }
+            else if (isset($_GET["error"])) {
+                ?>
+                <h2>Something went wrong</h2>
+                <p>Could not sign in with ORCID. Please try again later.</p>
+                <br /><br />
+                <p><i><small><?PHP echo $_GET["error_description"]; ?></small></i></p>
+                <?PHP
+            }
             else {
                 ?>
                 <h2>Something went wrong</h2>
                 <p>Could not sign in with ORCID. Please try again later.</p>
                 <br /><br />
-                <p><i><small>GET parameter 'code' is not set</small></i></p>
+                <p><i><small>GET parameter 'code' but also 'error' is not set <?PHP print_r($_POST); ?></small></i></p>
                 <?PHP
             }
         ?>

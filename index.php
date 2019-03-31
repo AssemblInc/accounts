@@ -1,4 +1,4 @@
 <?PHP
-    header("Location: signin.php");
+    header("Location: https://accounts.assembl.science/signin/");
     exit();
 ?>

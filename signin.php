@@ -27,7 +27,7 @@
             var h = 600;
             var left = (window.innerWidth/2)-(w/2);
             var top = (window.innerHeight/2)-(h/2);
-            oAuthWindow = window.open("https://orcid.org/oauth/authorize?client_id=***REMOVED_ORCID_CLIENT_ID***&response_type=code&scope=/read-limited&redirect_uri=https://accounts.assembl.science/callback/orcid.php", "_blank", "toolbar=no, scrollbars=yes, width="+w+", height="+h+", top="+top+", left="+left);
+            oAuthWindow = window.open("https://orcid.org/oauth/authorize?client_id=***REMOVED_ORCID_CLIENT_ID***&response_type=code&scope=/authenticate&redirect_uri=https://accounts.assembl.science/callback/orcid/", "_blank", "toolbar=no, scrollbars=yes, width="+w+", height="+h+", top="+top+", left="+left);
         });
         </script>
     </body>
