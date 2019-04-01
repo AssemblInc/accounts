@@ -25,12 +25,14 @@
                 $response = curl_exec($ch);
                 curl_close($ch);
                 if ($response !== false) {
+                    $jsonResponse = json_decode($response, true);
+                    $jsonResponse["assembl_id"] = "AS" . strtoupper(substr(hash("sha256", $jsonResponse["orcid"]), 0, 10));
                     if (isset($_SESSION["signin_return_key_as_json"]) && $_SESSION["signin_return_key_as_json"] == true) {
                         ob_end_clean();
-                        echo $response;
+                        echo json_encode($jsonResponse, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
                     }
                     else {
-                        $_SESSION["orcid_data"] = json_decode($response, true);
+                        $_SESSION["orcid_data"] = $jsonResponse;
                         ?>
                         <h2>You are now signed in to Assembl.</h2>
                         <p>This part hasn't been finished yet. <a href="https://assembl.science">Return to the home page</a></p>
