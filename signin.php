@@ -12,6 +12,17 @@
     <head>
         <title>Sign in to Assembl</title>
         <link rel="stylesheet" href="https://assembl.science/import/css/simple.css" />
+        <script>
+        function getParameterByName(name, url) {
+            if (!url) url = window.location.href;
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)", "i"),
+            results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        }
+        </script>
     </head>
     <body>
         <h1><a href="https://assembl.science/">Assembl</a></h1>
@@ -32,7 +43,12 @@
         });
         */
         document.getElementById("orcid-btn").addEventListener("click", function() {
-            window.location.href = "https://orcid.org/oauth/authorize?client_id=***REMOVED_ORCID_CLIENT_ID***&response_type=code&scope=/authenticate&redirect_uri=https://accounts.assembl.science/callback/orcid/";
+            var signInUrl = "https://orcid.org/oauth/authorize?client_id=***REMOVED_ORCID_CLIENT_ID***&response_type=code&scope=/authenticate";
+            if (getParameterByName("orcid") != null) {
+                signInUrl += "&orcid="+getParameterByName("orcid");
+            }
+            signInUrl += "&redirect_uri=https://accounts.assembl.science/callback/orcid/";
+            window.location.href = signInUrl;
         });
         </script>
     </body>
