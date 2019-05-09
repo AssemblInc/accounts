@@ -1,0 +1,164 @@
+@import url("https://assembl.science/import/css/fonts.css");
+
+html {
+    background-color: #193864;
+    background: linear-gradient(-45deg, #19285C, #193864);
+    background-attachment: fixed;
+    margin: 0px;
+    padding: 0px;
+    width: 100%;
+    height: 100%;
+}
+
+html, body {
+    display: block;
+    overflow: hidden;
+}
+
+body {
+    margin: 0px;
+    padding: 0px;
+    color: #1A1A1A;
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    letter-spacing: -0.6px;
+    font-weight: 400;
+    caret-color: #1A1A1A;
+    background: rgba(0,0,0,0);
+    width: 100%;
+    height: 100%;
+}
+
+b, th {
+    font-weight: 700;
+    letter-spacing: 0px;
+}
+
+a, a:visited {
+	color: #004CFF;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+a:hover, a:focus, a:active {
+    text-decoration: underline;
+	outline: 0;
+}
+
+#background-image {
+    display: block;
+    position: fixed;
+    top: -5%;
+    left: -5%;
+    bottom: -5%;
+    right: -5%;
+    width: 110%;
+    height: 110%;
+    object-fit: cover;
+    filter: blur(3px) contrast(120%) brightness(110%);
+    -webkit-filter: blur(3px) contrast(120%) brightness(110%);
+    -moz-filter: blur(9px) contrast(120%) brightness(110%);
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.signin-table {
+    display: table;
+    height: 100%;
+    width: 100%;
+}
+
+.signin-table-cell {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.signin-table-cell-content {
+    display: block;
+    margin: 0px auto;
+    text-align: center;
+    width: 85%;
+    max-width: 350px;
+    padding: 16px;
+    background: rgba(0,0,0,0.075);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    -moz-backdrop-filter: blur(5px);
+    border-radius: 5px;
+    -webkit-box-shadow: inset 0px 0px 80px 0px rgba(0,0,0,0.05);
+    -moz-box-shadow: inset 0px 0px 80px 0px rgba(0,0,0,0.05);
+    box-shadow: inset 0px 0px 80px 0px rgba(0,0,0,0.05);
+}
+
+h1 {
+    display: block;
+    font-family: 'Renner';
+    font-weight: 500;
+    font-size: 42px;
+    line-height: 44px;
+    color: #19285C;
+    text-align: center;
+    user-select: none;
+    letter-spacing: 0.2px;
+    cursor: default;
+    margin: 12px 0px 24px 0px;
+}
+
+h2 {
+    margin: 0px 0px 8px 0px;
+    padding: 0px;
+    font-size: 26px;
+    line-height: 33px;
+    font-weight: 400;
+    font-family: 'Renner', Helvetica, Arial, sans-serif;
+}
+
+hr {
+    margin: 16px 0px;
+}
+
+input[type=submit], input[type=button], button {
+    margin-top: 4px;
+    display: inline-block;
+    background-color: #224883;
+    color: #EDF4F4;
+    transition: 0.25s;
+    cursor: pointer;
+    border: 0;
+    padding: 8px 16px;
+    border-radius: 3px;
+    font-size: 17px;
+    font-family: 'Renner', 'Avenir', Helvetica, Arial, sans-serif;
+    font-weight: 400;
+    box-shadow: 0px 0px 0px 0px rgba(5,5,5,0);
+}
+
+input[type=submit]:focus, input[type=button]:focus, button:focus, input[type=submit]:hover, input[type=button]:hover, button:hover, input[type=submit]:active, input[type=button]:active, button:active {
+    background-color: #004CFF;
+    transition: 0.05s;
+    outline: 0;
+}
+
+input[type=submit]:active, input[type=button]:active, button:active {
+    box-shadow: inset 0px 0px 4px 0px rgba(5,5,5,0.8);
+    transform: scale(0.98);
+}
+
+input[type=submit] > *, input[type=button] > *, button > * {
+    vertical-align: middle;
+}
+
+input[type=submit] > img, input[type=button] > img, button > img {
+    margin-right: 12px;
+}
+
+@media screen and (max-width: 380px) {
+    input[type=submit], input[type=button], button {
+        font-size: 15px;
+        padding: 8px 12px;
+    }
+}
