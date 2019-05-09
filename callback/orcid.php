@@ -6,8 +6,8 @@
     <head>
         <title>Sign in to Assembl</title>
         <link rel="stylesheet" href="https://assembl.science/import/css/simple.css" />
-        <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-        <link rel="icon" type="image/ico" href="favicon.ico" />
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+        <link rel="icon" type="image/ico" href="/favicon.ico" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#193864" />
     </head>
