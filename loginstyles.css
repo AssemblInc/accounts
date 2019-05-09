@@ -64,6 +64,7 @@ a:hover, a:focus, a:active {
     user-select: none;
     pointer-events: none;
     z-index: -1;
+    opacity: 0.25;
 }
 
 .signin-table {
@@ -84,7 +85,7 @@ a:hover, a:focus, a:active {
     width: 85%;
     max-width: 350px;
     padding: 16px;
-    background: rgba(0,0,0,0.075);
+    background: rgba(255,255,255,0.85);
     backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
     -moz-backdrop-filter: blur(5px);
