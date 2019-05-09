@@ -39,7 +39,7 @@
                     <hr />
                     <p><b>Sign in with your ORCID iD to continue to Assembl.</b></p>
                     <p><small>ORCID provides a persistent identifier &ndash; an ORCID iD &ndash; that distinguishes you from other researchers and a mechanism for linking your research outputs and activities to your iD. Learn more at <a href="https://orcid.org">orcid.org</a>.</small></p>
-                    <button id="orcid-btn"><img id="orcid-id-icon" src="https://orcid.org/sites/default/files/images/orcid_24x24.png" width="24" height="24" alt="ORCID iD icon"/><span>Register or Connect your ORCID iD</span></button>
+                    <button id="orcid-btn" style="width: 100%;"><img id="orcid-id-icon" src="https://orcid.org/sites/default/files/images/orcid_24x24.png" width="24" height="24" alt="ORCID iD icon"/><span>Register or Connect your ORCID iD</span></button>
                     <script>
                     /*
                     var oAuthWindow;
