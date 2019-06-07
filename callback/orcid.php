@@ -1,5 +1,6 @@
 <?PHP
     session_start();
+    $noHtmlClose = false;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -30,18 +31,31 @@
                 curl_close($ch);
                 if ($response !== false) {
                     $jsonResponse = json_decode($response, true);
-                    $jsonResponse["assembl_id"] = "AS" . strtoupper(substr(hash("sha256", $jsonResponse["orcid"]), 0, 10));
+                    if (!array_key_exists("error", $jsonResponse)) {
+                        $jsonResponse["assembl_id"] = "AS" . strtoupper(substr(hash("sha256", $jsonResponse["orcid"]), 0, 10));
+                    }
                     if (isset($_SESSION["signin_return_key_as_json"]) && $_SESSION["signin_return_key_as_json"] == true) {
                         ob_end_clean();
                         header('Content-Type: application/json');
                         echo json_encode($jsonResponse, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+                        $noHtmlClose = true;
                     }
                     else {
-                        $_SESSION["orcid_data"] = $jsonResponse;
-                        ?>
-                        <h2>You are now signed in to Assembl.</h2>
-                        <p>This part hasn't been finished yet. <a href="https://assembl.science">Return to the home page</a></p>
-                        <?PHP
+                        if (!array_key_exists("error", $jsonResponse)) {
+                            $_SESSION["orcid_data"] = $jsonResponse;
+                            ?>
+                                <h2>You are now signed in to Assembl.</h2>
+                                <p>This part hasn't been finished yet. <a href="https://assembl.science">Return to the home page</a></p>
+                            <?PHP
+                        }
+                        else {
+                            ?>
+                                <h2>Something went wrong</h2>
+                                <p>Could not sign in with ORCID. Please try again later.</p>
+                                <br /><br />
+                                <p><i><small><?PHP echo $jsonResponse["error_description"]; ?></small></i></p>
+                            <?PHP
+                        }
                     }
                 }
                 else {
@@ -69,6 +83,9 @@
                 <p><i><small>GET parameter 'code' but also 'error' is not set <?PHP print_r($_POST); ?></small></i></p>
                 <?PHP
             }
+
+            if (!$noHtmlClose) {
         ?>
     </body>
 </html>
+<?PHP } ?>
