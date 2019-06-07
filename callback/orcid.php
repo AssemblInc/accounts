@@ -33,6 +33,7 @@
                     $jsonResponse["assembl_id"] = "AS" . strtoupper(substr(hash("sha256", $jsonResponse["orcid"]), 0, 10));
                     if (isset($_SESSION["signin_return_key_as_json"]) && $_SESSION["signin_return_key_as_json"] == true) {
                         ob_end_clean();
+                        header('Content-Type: application/json');
                         echo json_encode($jsonResponse, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
                     }
                     else {
