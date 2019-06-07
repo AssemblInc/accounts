@@ -19,8 +19,7 @@ body {
     margin: 0px;
     padding: 0px;
     color: #1A1A1A;
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
-    letter-spacing: -0.6px;
+    font-family: Helvetica, Arial, sans-serif;
     font-weight: 400;
     caret-color: #1A1A1A;
     background: rgba(0,0,0,0);
@@ -30,7 +29,6 @@ body {
 
 b, th {
     font-weight: 700;
-    letter-spacing: 0px;
 }
 
 a, a:visited {
@@ -133,7 +131,7 @@ input[type=submit], input[type=button], button {
     padding: 8px 16px;
     border-radius: 3px;
     font-size: 17px;
-    font-family: 'Renner', 'Avenir', Helvetica, Arial, sans-serif;
+    font-family: 'Renner', Helvetica, Arial, sans-serif;
     font-weight: 400;
     box-shadow: 0px 0px 0px 0px rgba(5,5,5,0);
 }
