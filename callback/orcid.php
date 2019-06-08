@@ -6,14 +6,14 @@
 <html lang="en">
     <head>
         <title>Sign in to Assembl</title>
-        <link rel="stylesheet" href="https://assembl.science/import/css/simple.css" />
+        <link rel="stylesheet" href="https://assembl.ch/import/css/simple.css" />
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
         <link rel="icon" type="image/ico" href="/favicon.ico" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#193864" />
     </head>
     <body>
-        <h1><a href="https://assembl.science/">Assembl</a></h1>
+        <h1><a href="https://assembl.ch/">Assembl</a></h1>
         <?PHP
             if (isset($_GET["code"]) && !empty($_GET["code"])) {
                 $ch = curl_init();
@@ -24,7 +24,7 @@
                     'client_secret' => '***REMOVED_ORCID_CLIENT_SECRET***',
                     'grant_type' => 'authorization_code',
                     'code' => $_GET["code"],
-                    'redirect_uri' => 'https://accounts.assembl.science/callback/orcid/'
+                    'redirect_uri' => 'https://accounts.assembl.ch/callback/orcid/'
                 )));
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                 $response = curl_exec($ch);
@@ -45,7 +45,7 @@
                             $_SESSION["orcid_data"] = $jsonResponse;
                             ?>
                                 <h2>You are now signed in to Assembl.</h2>
-                                <p>This part hasn't been finished yet. <a href="https://assembl.science">Return to the home page</a></p>
+                                <p>This part hasn't been finished yet. <a href="https://assembl.ch">Return to the home page</a></p>
                             <?PHP
                         }
                         else {

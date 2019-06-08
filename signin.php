@@ -30,7 +30,7 @@
         </script>
     </head>
     <body>
-        <img src="https://assembl.science/images/bg.jpg" id="background-image" />
+        <img src="https://assembl.ch/images/bg.jpg" id="background-image" />
         <div class="signin-table">
             <div class="signin-table-cell">
                 <div class="signin-table-cell-content">
@@ -46,7 +46,7 @@
                         if (getParameterByName("orcid") != null) {
                             signInUrl += "&orcid="+getParameterByName("orcid");
                         }
-                        signInUrl += "&redirect_uri=https://accounts.assembl.science/callback/orcid/";
+                        signInUrl += "&redirect_uri=https://accounts.assembl.ch/callback/orcid/";
                         window.location.href = signInUrl;
                     });
                     </script>
