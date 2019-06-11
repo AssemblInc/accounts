@@ -64,7 +64,7 @@
 
                                     mailLogin($mail);
                                     
-                                    $mail->addAddress("$userData["email_address"]", $userData["name"]);
+                                    $mail->addAddress($userData["email_address"], $userData["name"]);
                                     
                                     $mail->isHTML(false);
                                     $mail->Subject = "Reset the password for your Assembl account";
