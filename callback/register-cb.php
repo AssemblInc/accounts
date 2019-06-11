@@ -99,31 +99,41 @@
                 $_SESSION["register_errors"]["password"] = "Password cannot be empty";
             }
             else {
-                // PASSWORD-CHECK field
-                if (isset($_POST["register-form-password-check"]) && !empty($_POST["register-form-password-check"])) {
-                    if (empty(trim($_POST["register-form-password-check"]))) {
+                if (AssemblDB::passwordMeetsRequirements($_POST["register-form-password"])) {
+                    // PASSWORD-CHECK field
+                    if (isset($_POST["register-form-password-check"]) && !empty($_POST["register-form-password-check"])) {
+                        if (empty(trim($_POST["register-form-password-check"]))) {
+                            $_SESSION["register_errors"]["password"] = "Please re-enter your password and confirm it below";
+                            $_SESSION["register_errors"]["password-check"] = "Please confirm your password here";
+                        }
+                        else {
+                            if ($_POST["register-form-password"] === $_POST["register-form-password-check"]) {
+                                $hashedPw = AssemblDB::hashPassword($_POST["register-form-password"]);
+                                if (empty($hashedPw)) {
+                                    $_SESSION["register_errors"]["general"] = "Could not hash password";
+                                }
+                                else {
+                                    $_SESSION["register_details"]["password"] = $hashedPw;
+                                }
+                            }
+                            else {
+                                $_SESSION["register_errors"]["password"] = "Passwords did not match";
+                                $_SESSION["register_errors"]["password-check"] = "Passwords did not match";
+                            }
+                        }
+                    }
+                    else {
                         $_SESSION["register_errors"]["password"] = "Please re-enter your password and confirm it below";
                         $_SESSION["register_errors"]["password-check"] = "Please confirm your password here";
                     }
-                    else {
-                        if ($_POST["register-form-password"] === $_POST["register-form-password-check"]) {
-                            $hashedPw = AssemblDB::hashPassword($_POST["register-form-password"]);
-                            if (empty($hashedPw)) {
-                                $_SESSION["register_errors"]["general"] = "Could not hash password";
-                            }
-                            else {
-                                $_SESSION["register_details"]["password"] = $hashedPw;
-                            }
-                        }
-                        else {
-                            $_SESSION["register_errors"]["password"] = "Passwords did not match";
-                            $_SESSION["register_errors"]["password-check"] = "Passwords did not match";
-                        }
-                    }
                 }
                 else {
-                    $_SESSION["register_errors"]["password"] = "Please re-enter your password and confirm it below";
-                    $_SESSION["register_errors"]["password-check"] = "Please confirm your password here";
+                    $_SESSION["register_errors"]["password"] = "Password must meet one of the following requirements: <ul>";
+                    $reqs = AssemblDB::passwordRequirements();
+                    for ($i = 0; $i < count($reqs); $i++) {
+                        $_SESSION["register_errors"]["password"] .= "<li>" . $reqs[$i] . "</li>";
+                    }
+                    $_SESSION["register_errors"]["password"] .= "</ul>";
                 }
             }
         }

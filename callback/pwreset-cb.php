@@ -121,38 +121,75 @@
                 $_SESSION["reset_errors"]["general"] = "Password cannot be empty";
             }
             else {
-                // PASSWORD-CHECK field
-                if (isset($_POST["reset-form-password-check"]) && !empty($_POST["reset-form-password-check"])) {
-                    if (empty(trim($_POST["reset-form-password-check"]))) {
-                        $_SESSION["reset_errors"]["general"] = "Please re-enter your password and confirm it below";
-                    }
-                    else {
-                        if ($_POST["reset-form-password"] === $_POST["reset-form-password-check"]) {
-                            $hashedPw = AssemblDB::hashPassword($_POST["reset-form-password"]);
-                            
-                            $connection = AssemblDB::getAccountsConnection();
-                            $sql = "SELECT password FROM `users`.`accounts` WHERE uid='".AssemblDB::makeSafe($_SESSION["pw_reset_uid"], $connection)."' LIMIT 1";
-                            $result = mysqli_query($connection, $sql);
-                            $dbPassword = mysqli_fetch_assoc($result)["password"];
-                            if (!password_verify($_POST["reset-form-password"], $dbPassword)) {
-                                $sql = "UPDATE `users`.`accounts` SET `password`='".AssemblDB::makeSafe($hashedPw, $connection)."', `timestamp_set`=CURRENT_TIMESTAMP() WHERE uid='".AssemblDB::makeSafe($_SESSION["pw_reset_uid"], $connection)."' LIMIT 1";
-                                $result = mysqli_query($connection, $sql);
-                                unset($_SESSION["pw_reset_uid"]);
-                                $_SESSION["pw_reset_success"] = true;
-                                header("Location: /passwordreset/?step=confirm");
-                                die();
-                            }
-                            else {
-                                $_SESSION["reset_errors"]["general"] = "New password cannot be the same as the one currently in use";
-                            }
+                if (AssemblDB::passwordMeetsRequirements($_POST["reset-form-password"])) {
+                    // PASSWORD-CHECK field
+                    if (isset($_POST["reset-form-password-check"]) && !empty($_POST["reset-form-password-check"])) {
+                        if (empty(trim($_POST["reset-form-password-check"]))) {
+                            $_SESSION["reset_errors"]["general"] = "Please re-enter your password and confirm it below";
                         }
                         else {
-                            $_SESSION["reset_errors"]["general"] = "Passwords did not match";
+                            if ($_POST["reset-form-password"] === $_POST["reset-form-password-check"]) {
+                                $hashedPw = AssemblDB::hashPassword($_POST["reset-form-password"]);
+                                
+                                $connection = AssemblDB::getAccountsConnection();
+                                $sql = "SELECT password FROM `users`.`accounts` WHERE uid='".AssemblDB::makeSafe($_SESSION["pw_reset_uid"], $connection)."' LIMIT 1";
+                                $result = mysqli_query($connection, $sql);
+                                $dbPassword = mysqli_fetch_assoc($result)["password"];
+                                if (!password_verify($_POST["reset-form-password"], $dbPassword)) {
+                                    $sql = "UPDATE `users`.`accounts` SET `password`='".AssemblDB::makeSafe($hashedPw, $connection)."', `timestamp_set`=CURRENT_TIMESTAMP() WHERE uid='".AssemblDB::makeSafe($_SESSION["pw_reset_uid"], $connection)."' LIMIT 1";
+                                    $result = mysqli_query($connection, $sql);
+
+                                    $sql = "SELECT email_address, name FROM `users`.`userdata` WHERE uid='".AssemblDB::makeSafe($_SESSION["pw_reset_uid"], $connection)."' LIMIT 1";
+                                    $result = mysqli_query($connection, $sql);
+                                    $userData = mysqli_fetch_assoc($result);
+
+                                    if (!isset($_SESSION["pw_change_required"]) || $_SESSION["pw_change_required"] != true) {
+                                        require_once('../import/phpmailer/PHPMailerAutoload.php');
+                                        require_once('../import/maillogin.php');
+
+                                        $mail = new PHPMailer;
+
+                                        mailLogin($mail);
+                                        
+                                        $mail->addAddress($userData["email_address"], $userData["name"]);
+                                        
+                                        $mail->isHTML(false);
+                                        $mail->Subject = "Your password has been changed";
+                                        $mail->Body = "Hi ".$userData["name"].",\n\nthe password for your Assembl account has just been changed. If this wasn't you, please reset your password at https://accounts.assembl.ch/resetpassword/. If this was you, you can safely ignore this e-mail.\n\nKind regards,\nThe Assembl Team";
+
+                                        $mail->send();
+                                    }
+                                    else {
+                                        $sql = "UPDATE `users`.`accounts` SET `needs_reset`=0 WHERE uid='".AssemblDB::makeSafe($_SESSION["pw_reset_uid"], $connection)."' LIMIT 1";
+                                        $result = mysqli_query($connection, $sql);
+                                    }
+
+                                    unset($_SESSION["pw_reset_uid"]);
+                                    $_SESSION["pw_reset_success"] = true;
+
+                                    header("Location: /passwordreset/?step=confirm");
+                                    die();
+                                }
+                                else {
+                                    $_SESSION["reset_errors"]["general"] = "New password cannot be the same as the one currently in use";
+                                }
+                            }
+                            else {
+                                $_SESSION["reset_errors"]["general"] = "Passwords did not match";
+                            }
                         }
+                    }
+                    else {
+                        $_SESSION["reset_errors"]["general"] = "Please re-enter your password and confirm it below";
                     }
                 }
                 else {
-                    $_SESSION["reset_errors"]["general"] = "Please re-enter your password and confirm it below";
+                    $_SESSION["reset_errors"]["general"] = "New password must meet one of the following requirements: <ul>";
+                    $reqs = AssemblDB::passwordRequirements();
+                    for ($i = 0; $i < count($reqs); $i++) {
+                        $_SESSION["reset_errors"]["general"] .= "<li>" . $reqs[$i] . "</li>";
+                    }
+                    $_SESSION["reset_errors"]["general"] .= "</ul>";
                 }
             }
         }

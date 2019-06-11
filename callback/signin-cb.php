@@ -111,30 +111,44 @@
                         $_SESSION["signin_errors"]["general"] = "Signing in is currently not possible. Sorry for any inconvenience caused.";
                     }
                     else if (mysqli_num_rows($result) > 0) {
-                        // password found!
+                        // user found! Checking password...
                         $dbPassword = mysqli_fetch_assoc($result)["password"];
                         if (password_verify($_POST["signin-form-password"], $dbPassword)) {
-                            // correct password. Time to sign in!
-                            $sql = "INSERT INTO `users`.`logins` (uid, timestamp, ip_address, user_agent_key) VALUES ('".AssemblDB::makeSafe($uid, $connection)."', CURRENT_TIMESTAMP(), '".AssemblDB::makeSafe($_SERVER['REMOTE_ADDR'], $connection)."', '".$uaKey."')";
+                            $sql = "SELECT needs_reset FROM `users`.`accounts` WHERE uid='".AssemblDB::makeSafe($uid, $connection)."' LIMIT 1";
                             $result = mysqli_query($connection, $sql);
-                            
-                            unset($_SESSION["signin_details"]);
-                            unset($_SESSION["signin_errors"]);
-                            if (isset($_SESSION["signin_captcha_required"])) {
-                                unset($_SESSION["signin_captcha_required"]);
-                            }
-                            if (isset($_SESSION["signin_incorrect_attempts"])) {
-                                unset($_SESSION["signin_incorrect_attempts"]);
-                            }
-                            $_SESSION["signed_in"] = true;
+                            $passwordNeedsChanging = intval(mysqli_fetch_assoc($result)["needs_reset"]) > 0;
+                            if (!$passwordNeedsChanging) {
+                                // correct password and password does not require changing. Time to sign in!
+                                $sql = "INSERT INTO `users`.`logins` (uid, timestamp, ip_address, user_agent_key) VALUES ('".AssemblDB::makeSafe($uid, $connection)."', CURRENT_TIMESTAMP(), '".AssemblDB::makeSafe($_SERVER['REMOTE_ADDR'], $connection)."', '".$uaKey."')";
+                                $result = mysqli_query($connection, $sql);
+                                
+                                unset($_SESSION["signin_details"]);
+                                unset($_SESSION["signin_errors"]);
+                                if (isset($_SESSION["signin_captcha_required"])) {
+                                    unset($_SESSION["signin_captcha_required"]);
+                                }
+                                if (isset($_SESSION["signin_incorrect_attempts"])) {
+                                    unset($_SESSION["signin_incorrect_attempts"]);
+                                }
+                                $_SESSION["signed_in"] = true;
 
-                            $connection = $connection = AssemblDB::getAccountsConnection();
-                            $sql = "SELECT * FROM `users`.`userdata` WHERE uid='".AssemblDB::makeSafe($uid, $connection)."' LIMIT 1";
-                            $result = mysqli_query($connection, $sql);
-                            $_SESSION["userdata"] = mysqli_fetch_assoc($result);
+                                $connection = AssemblDB::getAccountsConnection();
+                                $sql = "SELECT * FROM `users`.`userdata` WHERE uid='".AssemblDB::makeSafe($uid, $connection)."' LIMIT 1";
+                                $result = mysqli_query($connection, $sql);
+                                $_SESSION["userdata"] = mysqli_fetch_assoc($result);
 
-                            echo "Hello ".$_SESSION["userdata"]["name"] . "! You are now signed in.";
-                            die();
+                                header("Location: /signin/?step=signed_in");
+                                die();
+                            }
+                            else {
+                                // password needs changing. Do not sign in yet, but refer to the password reset page
+                                $_SESSION["pw_reset_uid"] = $uid;
+                                $_SESSION["pw_change_required"] = true;
+                                $_SESSION["reset_errors"] = array();
+                                $_SESSION["reset_errors"]["general"] = "Your password requires changing before you can sign in.";
+                                header("Location: /passwordreset/?step=code");
+                                die();
+                            }
                         }
                         else {
                             // incorrect password
@@ -161,7 +175,7 @@
 
         if (count($_SESSION["signin_errors"]) > 0) {
             // errors have been found. Do not proceed signin process unless these errors have all been fixed
-            header("Location: /signin/?step=1");
+            header("Location: /signin/");
             die();
         }
     }

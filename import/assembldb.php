@@ -94,6 +94,23 @@
             return password_hash($password, PASSWORD_BCRYPT, array('cost' => 12));
         }
 
+        static function passwordRequirements() {
+            return array(
+                "must be at least 10 characters long and contain at least 1 number and 1 special character",
+                "must be at least 20 characters long"
+            );
+        }
+
+        static function passwordMeetsRequirements($password) {
+            if (strlen($password) >= 10 && preg_match('/[0-9]/', $password) != false && preg_match('/[!@#$%^&*(),.?":{}|<>]/', $password) != false) {
+                return true;
+            }
+            if (strlen($password) >= 20) {
+                return true;
+            }
+            return false;
+        }
+
         static function getUserAgentKey($user_agent) {
             $connection = self::getLoginsConnection();
             $uaHash = self::makeSafe(hash("md5", $user_agent, false), $connection);

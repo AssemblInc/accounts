@@ -13,6 +13,7 @@
     <head>
         <meta charset="utf-8" />
         <title>You have been signed out</title>
+        <base href="https://accounts.assembl.ch/" />
         <link rel="stylesheet" href="/loginstyles.css" />
 		<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
         <link rel="icon" type="image/ico" href="/favicon.ico" />
@@ -31,16 +32,24 @@
         </script>
     </head>
     <body>
-        <img src="https://assembl.ch/images/bg.jpg" id="background-image" />
+        <div id="background-image"></div>
         <div class="signin-table">
             <div class="signin-table-cell">
                 <div class="signin-table-cell-content">
+                    <div style="display: none;" id="loading">
+                        <img class="loading-svg" src="import/loading.svg" />
+                    </div>
+                    <script src="/import/loader.js"></script>
                     <h1>Assembl</h1>
                     <h2>You have been signed out</h2>
                     <hr />
-                    <p><b>You have been signed out from your Assembl account.</b></p>
+                    <p><small>You have been signed out from your Assembl account.</small></p>
                     <button class="assembl-btn full-width" onclick="window.location.href = '/signin/';">Sign in with a different account</button>
                 </div>
+                <div style="display: none;" id="loading">
+                    <img class="loading-svg" src="import/loading.svg" />
+                </div>
+                <script src="/import/loader.js"></script>
             </div>
         </div>
     </body>

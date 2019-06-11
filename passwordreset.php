@@ -6,6 +6,7 @@
     <head>
         <meta charset="utf-8" />
         <title>Reset your Assembl password</title>
+        <base href="https://accounts.assembl.ch/" />
         <link rel="stylesheet" href="/loginstyles.css" />
 		<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
         <link rel="icon" type="image/ico" href="/favicon.ico" />
@@ -25,10 +26,14 @@
         </script>
     </head>
     <body>
-        <img src="https://assembl.ch/images/bg.jpg" id="background-image" />
+        <div id="background-image"></div>
         <div class="signin-table">
             <div class="signin-table-cell">
                 <div class="signin-table-cell-content">
+                    <div style="display: none;" id="loading">
+                        <img class="loading-svg" src="import/loading.svg" />
+                    </div>
+                    <script src="/import/loader.js"></script>
                     <h1>Assembl</h1>
                     <h2>Reset your password</h2>
                     <hr />
@@ -62,17 +67,24 @@
                             $result = mysqli_query($connection, $sql);
                             if (mysqli_num_rows($result) > 0 || (isset($_SESSION["pw_reset_uid"]) && !empty($_SESSION["pw_reset_uid"]))) {
                                 $accountData = mysqli_fetch_assoc($result);
-                                $resetCodeExpires = strtotime($accountData["reset_code_expires"]);
+                                if (!isset($_SESSION["pw_reset_uid"])) {
+                                    $resetCodeExpires = strtotime($accountData["reset_code_expires"]);
+                                }
+                                else {
+                                    $resetCodeExpires = 0;
+                                }
                                 if ($resetCodeExpires < time() || (isset($_SESSION["pw_reset_uid"]) && !empty($_SESSION["pw_reset_uid"]))) {
                                     if (!isset($_SESSION["pw_reset_uid"])) {
                                         $_SESSION["pw_reset_uid"] = $accountData["uid"];
+                                        $sql = "UPDATE `users`.`accounts` SET `reset_code`=NULL, `reset_code_expires`=NULL WHERE uid='".AssemblDB::makeSafe($accountData["uid"], $connection)."' LIMIT 1";
+                                        $result = mysqli_query($connection, $sql);
                                     }
                                     ?>
                                         <form action="/callback/pwreset-cb/?step=pwchangecode" method="post" autocomplete="off">
-                                            <label for="reset-form-password">Password</label>
+                                            <label for="reset-form-password">New password</label>
                                             <input class="assembl-input" type="password" id="reset-form-password" name="reset-form-password" maxlength="72" />
 
-                                            <label for="reset-form-password-check">Confirm password</label>
+                                            <label for="reset-form-password-check">Confirm new password</label>
                                             <input class="assembl-input" type="password" id="reset-form-password-check" name="reset-form-password-check" maxlength="72" />
                                         
                                             <br />

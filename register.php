@@ -1,11 +1,16 @@
 <?PHP
     session_start();
+
+    if (isset($_SESSION["signed_in"]) && $_SESSION["signed_in"] === true) {
+        header("Location: /signin/?step=signed_in");
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8" />
         <title>Register for an Assembl account</title>
+        <base href="https://accounts.assembl.ch/" />
         <link rel="stylesheet" href="/loginstyles.css" />
 		<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
         <link rel="icon" type="image/ico" href="/favicon.ico" />
@@ -54,10 +59,14 @@
         </script>
     </head>
     <body>
-        <img src="https://assembl.ch/images/bg.jpg" id="background-image" />
+        <div id="background-image"></div>
         <div class="signin-table">
             <div class="signin-table-cell">
                 <div class="signin-table-cell-content">
+                    <div style="display: none;" id="loading">
+                        <img class="loading-svg" src="import/loading.svg" />
+                    </div>
+                    <script src="/import/loader.js"></script>
                     <h1>Assembl</h1>
                     <?PHP if (!isset($_GET["step"]) || intval($_GET["step"]) == 1) { ?>
                         <h2>Register for an account</h2>
