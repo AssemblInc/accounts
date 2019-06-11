@@ -17,6 +17,9 @@
         <link rel="icon" type="image/ico" href="/favicon.ico" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#193864" />
+        <?PHP if (isset($_SESSION["signin_captcha_required"]) && $_SESSION["signin_captcha_required"] === true) { ?>
+            <script src='https://www.google.com/recaptcha/api.js'></script>
+        <?PHP } ?>
         <script>
         function getParameterByName(name, url) {
             if (!url) url = window.location.href;
@@ -37,21 +40,34 @@
                     <h1>Assembl</h1>
                     <h2>Sign in to Assembl</h2>
                     <hr />
-                    <p><b>Sign in with your ORCID iD to continue to Assembl.</b></p>
-                    <p><small>ORCID provides a persistent identifier &ndash; an ORCID iD &ndash; that distinguishes you from other researchers and a mechanism for linking your research outputs and activities to your iD. Learn more at <a target="_blank" href="https://orcid.org">orcid.org</a>.</small></p>
-                    <button id="orcid-btn" style="width: 100%;"><img id="orcid-id-icon" src="https://orcid.org/sites/default/files/images/orcid_24x24.png" width="24" height="24" alt="ORCID iD icon"/><span>Register or Connect your ORCID iD</span></button>
-                    <script>
-                    document.getElementById("orcid-btn").addEventListener("click", function() {
-                        var signInUrl = "https://orcid.org/oauth/authorize?client_id=***REMOVED_ORCID_CLIENT_ID***&response_type=code&scope=/authenticate";
-                        if (getParameterByName("orcid") != null) {
-                            signInUrl += "&orcid="+getParameterByName("orcid");
-                        }
-                        signInUrl += "&redirect_uri=https://accounts.assembl.ch/callback/orcid/";
-                        window.location.href = signInUrl;
-                    });
-                    </script>
+                    <form action="/callback/signin-cb/?step=init" method="post" autocomplete="off">
+                        <?PHP if (isset($_SESSION["signin_errors"]) && isset($_SESSION["signin_errors"]["general"]) && !empty($_SESSION["signin_errors"]["general"])) { echo '<div class="form-error centered">' . $_SESSION["signin_errors"]["general"] . '</div><hr />'; } ?>
+                        <label for="signin-form-email">E-mail address</label>
+                        <div class="form-error"><?PHP if (isset($_SESSION["signin_errors"]) && isset($_SESSION["signin_errors"]["email"]) && !empty($_SESSION["signin_errors"]["email"])) { echo $_SESSION["signin_errors"]["email"]; } ?></div>
+                        <input class="assembl-input" type="email" id="signin-form-email" name="signin-form-email" value="<?PHP if (isset($_SESSION["signin_details"]) && isset($_SESSION["signin_details"]["email"]) && !empty($_SESSION["signin_details"]["email"])) { echo $_SESSION["signin_details"]["email"]; } ?>" />
+                    
+                        <label for="signin-form-password">Password</label>
+                        <div class="form-error"><?PHP if (isset($_SESSION["signin_errors"]) && isset($_SESSION["signin_errors"]["password"]) && !empty($_SESSION["signin_errors"]["password"])) { echo $_SESSION["signin_errors"]["password"]; } ?></div>
+                        <input class="assembl-input" type="password" id="signin-form-password" name="signin-form-password" maxlength="72" />
+
+                        <?PHP if (isset($_SESSION["signin_captcha_required"]) && $_SESSION["signin_captcha_required"] === true) { ?>
+                            <br />
+                            <div class="form-error centered" style="margin-bottom: 8px;"><?PHP if (isset($_SESSION["signin_errors"]) && isset($_SESSION["signin_errors"]["captcha"]) && !empty($_SESSION["signin_errors"]["captcha"])) { echo $_SESSION["signin_errors"]["captcha"]; } ?></div>
+                            <div class="g-recaptcha" data-sitekey="***REMOVED_G_RECAPTCHA_SITEKEY***" data-theme="light" data-size="normal" ></div>
+                        <?PHP } ?>
+
+                        <br />
+                        <input type="submit" class="assembl-btn full-width" id="signin-form-submit" name="signin-form-submit" value="Sign in" />
+                        <div style="font-size: smaller; margin-top: 8px; height: 12px;">
+                            <div style="float: left; text-align: left;"><a href="/passwordreset/">Forgot password</a></div>
+                            <div style="float: right; text-align: right;">No account yet? <a href="/register/">Register now</a></div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </body>
 </html>
+<?PHP 
+    $_SESSION["signin_errors"] = array();
+?>
