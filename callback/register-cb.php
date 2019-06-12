@@ -219,7 +219,7 @@
                 die();
             }
             else {
-                header("Location: /register/?step=2&continue=".encodeURIComponent(($_GET["continue"]));
+                header("Location: /register/?step=2&continue=".encodeURIComponent($_GET["continue"]));
                 die();
             }
         }
@@ -245,7 +245,7 @@
                         $_SESSION["register_errors"]["general"] = "You entered an incorrect verification code 4 times. Out of precaution, we've blocked this registration process. You can try again now. If you need any help, feel free to contact Assembl Support.";
                         $_SESSION["verification_errors"] = array();
                         $_SESSION["verification_incorrect_attempts"] = 0;
-                        header("Location: /register/?step=1&continue=".encodeURIComponent(($_GET["continue"]));
+                        header("Location: /register/?step=1&continue=".encodeURIComponent($_GET["continue"]));
                         die();
                     }
                     else {
