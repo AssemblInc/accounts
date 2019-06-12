@@ -1,5 +1,5 @@
 <?PHP
-    session_start();
+    require_once("../import/sessionstart.php");
     $noHtmlClose = false;
 ?>
 <!DOCTYPE html>

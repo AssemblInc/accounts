@@ -3,6 +3,13 @@
 
     require_once('../import/assembldb.php');
 
+    require("../import/sessionstart.php");
+
+    function encodeURIComponent($str) {
+		$revert = array('%21'=>'!', '%2A'=>'*', '%27'=>"'", '%28'=>'(', '%29'=>')');
+		return strtr(rawurlencode($str), $revert);
+	}
+
     function sendVerifCode($code, $email, $name) {
         require_once('../import/phpmailer/PHPMailerAutoload.php');
         require_once('../import/maillogin.php');
@@ -19,8 +26,7 @@
 
         return $mail->send();
     }
-
-    session_start();
+    
     if (intval($_GET["step"]) == 1) {
         $_SESSION["register_details"] = array();
         $_SESSION["register_errors"] = array();
@@ -195,7 +201,7 @@
 
         if (count($_SESSION["register_errors"]) > 0) {
             // errors have been found. Do not proceed register process unless these errors have all been fixed
-            header("Location: /register/?step=1");
+            header("Location: /register/?step=1&continue=".encodeURIComponent($_GET["continue"]));
             die();
         }
         else {
@@ -209,11 +215,11 @@
 
             if ($sent === false) {
                 $_SESSION["register_errors"]["general"] = "Could not send verification e-mail. Try again later.";
-                header("Location: /register/?step=1");
+                header("Location: /register/?step=1&continue=".encodeURIComponent($_GET["continue"]));
                 die();
             }
             else {
-                header("Location: /register/?step=2");
+                header("Location: /register/?step=2&continue=".encodeURIComponent(($_GET["continue"]));
                 die();
             }
         }
@@ -239,7 +245,7 @@
                         $_SESSION["register_errors"]["general"] = "You entered an incorrect verification code 4 times. Out of precaution, we've blocked this registration process. You can try again now. If you need any help, feel free to contact Assembl Support.";
                         $_SESSION["verification_errors"] = array();
                         $_SESSION["verification_incorrect_attempts"] = 0;
-                        header("Location: /register/?step=1");
+                        header("Location: /register/?step=1&continue=".encodeURIComponent(($_GET["continue"]));
                         die();
                     }
                     else {
@@ -255,7 +261,7 @@
 
         if (count($_SESSION["verification_errors"]) > 0) {
             // errors have been found. Do not proceed register process unless these errors have all been fixed
-            header("Location: /register/?step=2");
+            header("Location: /register/?step=2&continue=".encodeURIComponent($_GET["continue"]));
             die();
         }
         else {
@@ -269,7 +275,7 @@
                 $_SESSION["register_errors"]["general"] = "Something went horribly wrong. Please try again.";
                 $_SESSION["verification_errors"] = array();
                 $_SESSION["verification_incorrect_attempts"] = 0;
-                header("Location: /register/?step=1");
+                header("Location: /register/?step=1&continue=".encodeURIComponent($_GET["continue"]));
                 die();
             }
 
@@ -296,15 +302,12 @@
             if ($result === false) {
                 horriblyWrong();
             }
-
-            session_unset();
-			session_destroy();
-            session_write_close();
             
-            session_start();
+            require("../import/sessionend.php");
+            require("../import/sessionstart.php");
             $_SESSION["account_created"] = true;
 
-            header("Location: /register/?step=3");
+            header("Location: /register/?step=3&continue=".encodeURIComponent($_GET["continue"]));
             die();
         }
     }

@@ -3,7 +3,12 @@
 
     require_once('../import/assembldb.php');
 
-    session_start();
+    require("../import/sessionstart.php");
+
+    function encodeURIComponent($str) {
+		$revert = array('%21'=>'!', '%2A'=>'*', '%27'=>"'", '%28'=>'(', '%29'=>')');
+		return strtr(rawurlencode($str), $revert);
+	}
 
     if ($_GET["step"] == "init") {
         $_SESSION["signin_details"] = array();
@@ -137,7 +142,7 @@
                                 $result = mysqli_query($connection, $sql);
                                 $_SESSION["userdata"] = mysqli_fetch_assoc($result);
 
-                                header("Location: /signin/?step=signed_in");
+                                header("Location: /signin/?step=signed_in&continue=".encodeURIComponent($_GET["continue"]));
                                 die();
                             }
                             else {
@@ -146,7 +151,7 @@
                                 $_SESSION["pw_change_required"] = true;
                                 $_SESSION["reset_errors"] = array();
                                 $_SESSION["reset_errors"]["general"] = "Your password requires changing before you can sign in.";
-                                header("Location: /passwordreset/?step=code");
+                                header("Location: /passwordreset/?step=code&continue=".encodeURIComponent($_GET["continue"]));
                                 die();
                             }
                         }
@@ -175,7 +180,7 @@
 
         if (count($_SESSION["signin_errors"]) > 0) {
             // errors have been found. Do not proceed signin process unless these errors have all been fixed
-            header("Location: /signin/");
+            header("Location: /signin/?continue=".encodeURIComponent($_GET["continue"]));
             die();
         }
     }

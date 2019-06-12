@@ -3,7 +3,12 @@
 
     require_once('../import/assembldb.php');
 
-    session_start();
+    require("../import/sessionstart.php");
+
+    function encodeURIComponent($str) {
+		$revert = array('%21'=>'!', '%2A'=>'*', '%27'=>"'", '%28'=>'(', '%29'=>')');
+		return strtr(rawurlencode($str), $revert);
+	}
 
     if ($_GET["step"] == "sendmail") {
         $_SESSION["reset_details"] = array();
@@ -68,7 +73,7 @@
                                     
                                     $mail->isHTML(false);
                                     $mail->Subject = "Reset the password for your Assembl account";
-                                    $mail->Body = "Hi ".$userData["name"].",\n\nhere is the link to reset the password for your Assembl account:\n\nhttps://accounts.assembl.ch/passwordreset/?step=code&code=".$resetCode."\n\nThis link will be valid for two hours. If you did not request to reset your password, you can safely ignore this e-mail.\n\nKind regards,\nThe Assembl Team";
+                                    $mail->Body = "Hi ".$userData["name"].",\n\nhere is the link to reset the password for your Assembl account:\n\nhttps://accounts.assembl.ch/passwordreset/?step=code&code=".$resetCode."&continue=".encodeURIComponent($_GET["continue"])."\n\nThis link will be valid for two hours. If you did not request to reset your password, you can safely ignore this e-mail.\n\nKind regards,\nThe Assembl Team";
 
                                     $sent = $mail->send();
 
@@ -107,7 +112,7 @@
 
         if (count($_SESSION["reset_errors"]) > 0) {
             // errors have been found. Do not proceed unless these errors have all been fixed
-            header("Location: /passwordreset/?step=sendmail");
+            header("Location: /passwordreset/?step=sendmail&continue=".encodeURIComponent($_GET["continue"]));
             die();
         }
     }
@@ -155,7 +160,7 @@
                                         
                                         $mail->isHTML(false);
                                         $mail->Subject = "Your password has been changed";
-                                        $mail->Body = "Hi ".$userData["name"].",\n\nthe password for your Assembl account has just been changed. If this wasn't you, please reset your password at https://accounts.assembl.ch/resetpassword/. If this was you, you can safely ignore this e-mail.\n\nKind regards,\nThe Assembl Team";
+                                        $mail->Body = "Hi ".$userData["name"].",\n\nthe password for your Assembl account has just been changed. If this wasn't you, please reset your password at https://accounts.assembl.ch/passwordreset/. If this was you, you can safely ignore this e-mail.\n\nKind regards,\nThe Assembl Team";
 
                                         $mail->send();
                                     }
@@ -167,7 +172,7 @@
                                     unset($_SESSION["pw_reset_uid"]);
                                     $_SESSION["pw_reset_success"] = true;
 
-                                    header("Location: /passwordreset/?step=confirm");
+                                    header("Location: /passwordreset/?step=confirm&continue=".encodeURIComponent($_GET["continue"]));
                                     die();
                                 }
                                 else {
@@ -199,7 +204,7 @@
 
         if (count($_SESSION["reset_errors"]) > 0) {
             // errors have been found. Do not proceed unless these errors have all been fixed
-            header("Location: /passwordreset/?step=code");
+            header("Location: /passwordreset/?step=code&continue=".encodeURIComponent($_GET["continue"]));
             die();
         }
     }

@@ -1,8 +1,17 @@
 <?PHP
-    session_start();
+    require("import/sessionstart.php");
+
+    require_once("import/continuer.php");
 
     if (isset($_SESSION["signed_in"]) && $_SESSION["signed_in"] === true) {
-        header("Location: /signin/?step=signed_in");
+        if ($urlSpecified) {
+            header("Location: ".$continueUrl);
+            die();
+        }
+        else {
+            header("Location: /signin/?step=signed_in");
+            die();
+        }
     }
 ?>
 <!DOCTYPE html>
@@ -59,7 +68,6 @@
         </script>
     </head>
     <body>
-        <div id="background-image"></div>
         <div class="signin-table">
             <div class="signin-table-cell">
                 <div class="signin-table-cell-content">
@@ -71,27 +79,28 @@
                     <?PHP if (!isset($_GET["step"]) || intval($_GET["step"]) == 1) { ?>
                         <h2>Register for an account</h2>
                         <hr />
-                        <form action="/callback/register-cb/?step=1" method="post" autocomplete="off">
+                        <form action="/callback/register-cb/?step=1&continue=<?PHP echo $encodedContinueUrl; ?>" method="post" autocomplete="off">
                             <?PHP if (isset($_SESSION["register_errors"]) && isset($_SESSION["register_errors"]["general"]) && !empty($_SESSION["register_errors"]["general"])) { echo '<div class="form-error centered">' . $_SESSION["register_errors"]["general"] . '</div><hr />'; } ?>
                             <label for="register-form-name">Name</label>
                             <div class="form-error"><?PHP if (isset($_SESSION["register_errors"]) && isset($_SESSION["register_errors"]["name"]) && !empty($_SESSION["register_errors"]["name"])) { echo $_SESSION["register_errors"]["name"]; } ?></div>
-                            <input class="assembl-input" type="text" id="register-form-name" name="register-form-name" value="<?PHP if (isset($_SESSION["register_details"]) && isset($_SESSION["register_details"]["name"]) && !empty($_SESSION["register_details"]["name"])) { echo $_SESSION["register_details"]["name"]; } ?>" />
+                            <input class="assembl-input" type="text" maxlength="64" id="register-form-name" name="register-form-name" value="<?PHP if (isset($_SESSION["register_details"]) && isset($_SESSION["register_details"]["name"]) && !empty($_SESSION["register_details"]["name"])) { echo $_SESSION["register_details"]["name"]; } ?>" />
 
                             <label for="register-form-email">E-mail address</label>
                             <div class="form-error"><?PHP if (isset($_SESSION["register_errors"]) && isset($_SESSION["register_errors"]["email"]) && !empty($_SESSION["register_errors"]["email"])) { echo $_SESSION["register_errors"]["email"]; } ?></div>
-                            <input class="assembl-input" type="email" id="register-form-email" name="register-form-email" value="<?PHP if (isset($_SESSION["register_details"]) && isset($_SESSION["register_details"]["email"]) && !empty($_SESSION["register_details"]["email"])) { echo $_SESSION["register_details"]["email"]; } ?>" placeholder="example@domain.com" />
+                            <input class="assembl-input" type="email" maxlength="100" id="register-form-email" name="register-form-email" value="<?PHP if (isset($_SESSION["register_details"]) && isset($_SESSION["register_details"]["email"]) && !empty($_SESSION["register_details"]["email"])) { echo $_SESSION["register_details"]["email"]; } ?>" placeholder="example@domain.com" />
                             
                             <label for="register-form-birth-date">Birth date</label>
                             <div class="form-error"><?PHP if (isset($_SESSION["register_errors"]) && isset($_SESSION["register_errors"]["birth-date"]) && !empty($_SESSION["register_errors"]["birth-date"])) { echo $_SESSION["register_errors"]["birth-date"]; } ?></div>
                             <input class="assembl-input" type="date" id="register-form-birth-date" name="register-form-birth-date" value="<?PHP if (isset($_SESSION["register_details"]) && isset($_SESSION["register_details"]["birth-date"]) && !empty($_SESSION["register_details"]["birth-date"])) { echo $_SESSION["register_details"]["birth-date"]; } ?>" placeholder="YYYY-MM-DD" />
+                            <script> setMinMaxBirthDate(); </script>
 
                             <label for="register-form-password">Password</label>
                             <div class="form-error"><?PHP if (isset($_SESSION["register_errors"]) && isset($_SESSION["register_errors"]["password"]) && !empty($_SESSION["register_errors"]["password"])) { echo $_SESSION["register_errors"]["password"]; } ?></div>
-                            <input class="assembl-input" type="password" id="register-form-password" name="register-form-password" maxlength="72" />
+                            <input class="assembl-input" type="password" maxlength="72" id="register-form-password" name="register-form-password" />
 
                             <label for="register-form-password-check">Confirm password</label>
                             <div class="form-error"><?PHP if (isset($_SESSION["register_errors"]) && isset($_SESSION["register_errors"]["password-check"]) && !empty($_SESSION["register_errors"]["password-check"])) { echo $_SESSION["register_errors"]["password-check"]; } ?></div>
-                            <input class="assembl-input" type="password" id="register-form-password-check" name="register-form-password-check" maxlength="72" />
+                            <input class="assembl-input" type="password" maxlength="72" id="register-form-password-check" name="register-form-password-check" />
 
                             <br />
                             <div style="text-align: center;">
@@ -101,19 +110,19 @@
 
                             <br />
                             <div class="form-error centered" style="margin-bottom: 8px;"><?PHP if (isset($_SESSION["register_errors"]) && isset($_SESSION["register_errors"]["captcha"]) && !empty($_SESSION["register_errors"]["captcha"])) { echo $_SESSION["register_errors"]["captcha"]; } ?></div>
+                            <noscript><div class="form-error centered">Please disable NoScript to complete a captcha and prove you're not a bot.</div></noscript>
                             <div class="g-recaptcha" data-sitekey="***REMOVED_G_RECAPTCHA_SITEKEY***" data-theme="light" data-size="normal" ></div>
 
                             <br />
                             <input type="submit" class="assembl-btn full-width" id="register-form-submit" name="register-form-submit" value="Register" />
-                            <div style="font-size: smaller; margin-top: 8px; height: 12px;">
-                                <div style="text-align: center; float: left; width: 100%;">Already have an account? <a href="/signin/">Sign in</a></div>
+                            <div class="below-submit">
+                                <div style="text-align: center; float: left; width: 100%;">Already have an account? <a href="/signin/?continue=<?PHP echo $encodedContinueUrl; ?>">Sign in</a></div>
                             </div>
                         </form>
-                        <script> setMinMaxBirthDate(); </script>
                     <?PHP } else if (intval($_GET["step"]) == 2 && isset($_SESSION["email_verif_code"]) && !empty($_SESSION["email_verif_code"])) { ?>
                         <h2>Confirm your e-mail</h2>
                         <hr />
-                        <form action="/callback/register-cb/?step=2" method="post" autocomplete="off">
+                        <form action="/callback/register-cb/?step=2&continue=<?PHP echo $encodedContinueUrl; ?>" method="post" autocomplete="off">
                             <p><b>We've sent you an e-mail containing a verification code.</b></p>
                             <p><small>Copy the code and enter it here. Do not close this window.</small></p>
 
@@ -129,7 +138,7 @@
                         <hr />
                         <p><b>Your account has been set up.</b></p>
                         <p><small>You can now sign in.</small></p>
-                        <button class="assembl-btn full-width" onclick="window.location.href = '/signin/';">Sign in now</button>
+                        <button class="assembl-btn full-width" href="/signin/?continue=<?PHP echo $encodedContinueUrl; ?>">Sign in now</button>
                     <?PHP 
                             unset($_SESSION["account_created"]);
                         } else {

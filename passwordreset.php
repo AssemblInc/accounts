@@ -1,5 +1,7 @@
 <?PHP
-    session_start();
+    require("import/sessionstart.php");
+
+    require_once("import/continuer.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -26,7 +28,6 @@
         </script>
     </head>
     <body>
-        <div id="background-image"></div>
         <div class="signin-table">
             <div class="signin-table-cell">
                 <div class="signin-table-cell-content">
@@ -39,21 +40,26 @@
                     <hr />
                     <?PHP if (isset($_SESSION["reset_errors"]) && isset($_SESSION["reset_errors"]["general"]) && !empty($_SESSION["reset_errors"]["general"])) { echo '<div class="form-error centered">' . $_SESSION["reset_errors"]["general"] . '</div><hr />'; } ?>
                     <?PHP if (!isset($_GET["step"]) || empty($_GET["step"]) || $_GET["step"] == "sendmail") { ?>
-                        <form action="/callback/pwreset-cb/?step=sendmail" method="post" autocomplete="off">
+                        <form action="/callback/pwreset-cb/?step=sendmail&continue=<?PHP echo $encodedContinueUrl; ?>" method="post" autocomplete="off">
                             <p>Enter your account's e-mail address and we'll send you a password reset link.</p>
 
                             <label for="reset-form-email">E-mail address</label>
                             <div class="form-error"><?PHP if (isset($_SESSION["reset_errors"]) && isset($_SESSION["reset_errors"]["email"]) && !empty($_SESSION["reset_errors"]["email"])) { echo $_SESSION["reset_errors"]["email"]; } ?></div>
-                            <input class="assembl-input" type="email" id="reset-form-email" name="reset-form-email" value="<?PHP if (isset($_SESSION["reset_details"]) && isset($_SESSION["reset_details"]["email"]) && !empty($_SESSION["reset_details"]["email"])) { echo $_SESSION["reset_details"]["email"]; } ?>" />
+                            <input class="assembl-input" type="email" maxlength="100" id="reset-form-email" name="reset-form-email" value="<?PHP if (isset($_SESSION["reset_details"]) && isset($_SESSION["reset_details"]["email"]) && !empty($_SESSION["reset_details"]["email"])) { echo $_SESSION["reset_details"]["email"]; } else if (isset($_GET["email"]) && !empty($_GET["email"])) { echo $_GET["email"]; } ?>" />
                             
                             <br />
                             <div class="form-error centered" style="margin-bottom: 8px;"><?PHP if (isset($_SESSION["reset_errors"]) && isset($_SESSION["reset_errors"]["captcha"]) && !empty($_SESSION["reset_errors"]["captcha"])) { echo $_SESSION["reset_errors"]["captcha"]; } ?></div>
+                            <noscript><div class="form-error centered">Please disable NoScript to complete a captcha and prove you're not a bot.</div></noscript>
                             <div class="g-recaptcha" data-sitekey="***REMOVED_G_RECAPTCHA_SITEKEY***" data-theme="light" data-size="normal" ></div>
 
                             <br />
                             <input type="submit" class="assembl-btn full-width" id="reset-form-submit" name="reset-form-submit" value="Send password reset e-mail" />
-                            <div style="font-size: smaller; margin-top: 8px; height: 12px;">
-                                <div style="text-align: center; float: left; width: 100%;"><a href="/signin/">Back to sign in</a></div>
+                            <div class="below-submit">
+                                <?PHP if (strpos($continueUrl, "accounts.assembl.ch/settings/") !== false) { ?>
+                                    <div style="text-align: center; float: left; width: 100%;"><a href="/settings/">Back to settings</a></div>
+                                <?PHP } else { ?>
+                                    <div style="text-align: center; float: left; width: 100%;"><a href="/signin/?continue=<?PHP echo $encodedContinueUrl; ?>">Back to sign in</a></div>
+                                <?PHP } ?>
                             </div>
                         </form>
                     <?PHP } else if ($_GET["step"] == "mailsent" && isset($_SESSION["pw_reset_mail_sent"]) && $_SESSION["pw_reset_mail_sent"] === true) { ?>
@@ -80,12 +86,12 @@
                                         $result = mysqli_query($connection, $sql);
                                     }
                                     ?>
-                                        <form action="/callback/pwreset-cb/?step=pwchangecode" method="post" autocomplete="off">
+                                        <form action="/callback/pwreset-cb/?step=pwchangecode&continue=<?PHP echo $encodedContinueUrl; ?>" method="post" autocomplete="off">
                                             <label for="reset-form-password">New password</label>
-                                            <input class="assembl-input" type="password" id="reset-form-password" name="reset-form-password" maxlength="72" />
+                                            <input class="assembl-input" type="password" maxlength="72" id="reset-form-password" name="reset-form-password" />
 
                                             <label for="reset-form-password-check">Confirm new password</label>
-                                            <input class="assembl-input" type="password" id="reset-form-password-check" name="reset-form-password-check" maxlength="72" />
+                                            <input class="assembl-input" type="password" maxlength="72" id="reset-form-password-check" name="reset-form-password-check" />
                                         
                                             <br />
                                             <input type="submit" class="assembl-btn full-width" id="reset-form-submit" name="reset-form-submit" value="Reset password" />
@@ -98,20 +104,20 @@
                                     <?PHP echo $resetCodeExpires; ?>
                                     <br />
                                     <?PHP echo time(); ?>
-                                    <p><small>Click <a href="/passwordreset/?sendmail">here</a> if you still wish to reset your password.</small></p>
+                                    <p><small>Click <a href="/passwordreset/?step=sendmail&continue=<?PHP echo $encodedContinueUrl; ?>">here</a> if you still wish to reset your password.</small></p>
                                 <?PHP
                                 }
                             }
                             else {
                                 ?>
                                     <p><b>This link is invalid or has already been used.</b></p>
-                                    <p><small>Click <a href="/passwordreset/?sendmail">here</a> if you still wish to reset your password.</small></p>
+                                    <p><small>Click <a href="/passwordreset/?step=sendmail&continue=<?PHP echo $encodedContinueUrl; ?>">here</a> if you still wish to reset your password.</small></p>
                                 <?PHP
                             }
                         } else if ($_GET["step"] == "confirm" && $_SESSION["pw_reset_success"] === true) { ?>
                             <p><b>Your password has been reset.</b></p>
                             <p><small>You can now sign in using your new password.</small></p>
-                            <button class="assembl-btn full-width" onclick="window.location.href = '/signin/';">Sign in now</button>
+                            <a class="assembl-btn full-width" href="/signin/?continue=<?PHP echo $encodedContinueUrl; ?>">Sign in now</a>
                         <?PHP
                             unset($_SESSION["pw_reset_success"]); 
                         } else {
