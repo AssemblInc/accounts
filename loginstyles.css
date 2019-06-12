@@ -2,7 +2,7 @@
 
 html {
     background-color: #193864;
-    background: linear-gradient(45deg, #19285C 15%, #0036B7);
+    background: linear-gradient(45deg, #19285C, #0036B7);
     background-attachment: fixed;
     margin: 0px;
     padding: 0px;
@@ -61,7 +61,7 @@ a:not(.assembl-btn):hover, a:not(.assembl-btn):focus, a:not(.assembl-btn):active
     width: 85%;
     max-width: 350px;
     padding: 32px 24px;
-    background: #FFFFFF;
+    background: #FAFAFA;
     border-radius: 5px;
     box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
     position: relative;
@@ -264,7 +264,7 @@ input[type=password] {
     margin-top: 12px;
     display: inline-block;
     background-color: #0036B7;
-    color: #EDF4F4;
+    color: #FFFFFF;
     transition: 0.25s;
     cursor: pointer;
     border: 0;
