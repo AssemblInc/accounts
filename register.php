@@ -138,7 +138,7 @@
                         <hr />
                         <p><b>Your account has been set up.</b></p>
                         <p><small>You can now sign in.</small></p>
-                        <button class="assembl-btn full-width" href="/signin/?continue=<?PHP echo $encodedContinueUrl; ?>">Sign in now</button>
+                        <a class="assembl-btn full-width" href="/signin/?continue=<?PHP echo $encodedContinueUrl; ?>">Sign in now</a>
                     <?PHP 
                             unset($_SESSION["account_created"]);
                         } else {
