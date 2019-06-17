@@ -18,8 +18,7 @@ body {
     margin: 0px;
     padding: 0px;
     color: #1A1A1A;
-    font-family: Helvetica, Arial, sans-serif;
-    font-weight: 400;
+    font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif;
     caret-color: #1A1A1A;
     width: 100%;
     height: 100%;
@@ -121,7 +120,7 @@ h2 {
     padding: 0px;
     font-size: 26px;
     line-height: 33px;
-    font-weight: 400;
+    font-weight: 500;
     font-family: 'Renner', Helvetica, Arial, sans-serif;
 }
 
@@ -147,7 +146,7 @@ legend {
     text-align: left;
     text-transform: uppercase;
     font-family: 'Renner', Helvetica, Arial, sans-serif;
-    font-weight: 400;
+    font-weight: 500;
     font-size: 15px;
     padding: 0px;
     margin: 0px;
@@ -177,7 +176,7 @@ label.forcheckbox {
 .reasoning {
     font-size: 19px;
     text-align: left;
-    font-weight: 400;
+    font-weight: 300;
     font-family: 'Renner', Helvetica, Arial, sans-serif;
 }
 
@@ -230,7 +229,7 @@ input[type=checkbox]:hover, input[type=radio]:hover, input[type=checkbox]:focus,
     color: #1A1A1A;
     font-size: 16px;
     line-height: 20px;
-    font-family: Helvetica, Arial, sans-serif;
+    font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif;
     border: solid 1px rgba(0,0,0,0.1);
     border-radius: 2px;
     text-align: left;
@@ -272,7 +271,7 @@ input[type=password] {
     border-radius: 3px;
     font-size: 17px;
     font-family: 'Renner', Helvetica, Arial, sans-serif;
-    font-weight: 400;
+    font-weight: 500;
     line-height: 20px;
     height: 36px;
     box-shadow: 0px 0px 0px 0px rgba(5,5,5,0);
