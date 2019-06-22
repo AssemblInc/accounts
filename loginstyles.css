@@ -104,7 +104,7 @@ a:not(.assembl-btn):hover, a:not(.assembl-btn):focus, a:not(.assembl-btn):active
 h1 {
     display: block;
     font-family: 'Renner', Helvetica, Arial, sans-serif;
-    font-weight: 500;
+    font-weight: 700;
     font-size: 42px;
     line-height: 44px;
     color: #1A1A1A;
@@ -146,7 +146,7 @@ legend {
     text-align: left;
     text-transform: uppercase;
     font-family: 'Renner', Helvetica, Arial, sans-serif;
-    font-weight: 500;
+    font-weight: 700;
     font-size: 15px;
     padding: 0px;
     margin: 0px;
@@ -176,7 +176,7 @@ label.forcheckbox {
 .reasoning {
     font-size: 19px;
     text-align: left;
-    font-weight: 300;
+    font-weight: 500;
     font-family: 'Renner', Helvetica, Arial, sans-serif;
 }
 
