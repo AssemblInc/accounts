@@ -37,7 +37,7 @@
                     <h2>Account History</h2>
                     <hr />
                     <?PHP if (!isset($_GET["of"]) || $_GET["of"] == "logins") { ?>
-                        <p style="font-size: bigger;"><b>Your Login History</b></p>
+                        <p style="font-size: larger;"><b>Your Login History</b></p>
                         <ul style="list-style-type: none; padding: 0px;">
                             <?PHP
                                 require_once("import/assembldb.php");
