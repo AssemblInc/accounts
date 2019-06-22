@@ -26,7 +26,7 @@
     if (isset($_POST["settings-form-birth-date"])) {
         if (!empty($_POST["settings-form-birth-date"])) {
             if ($_POST["settings-form-birth-date"] !== $_SESSION["userdata"]["birth_date"]) {
-                $birthDate = strtotime($_POST["register-form-birth-date"]);
+                $birthDate = strtotime($_POST["settings-form-birth-date"]);
                 if ($birthDate) {
                     $longAgoDate = strtotime("-150 year -1 day");
                     $today = strtotime("+1 day");
@@ -56,8 +56,8 @@
     if (isset($_POST["settings-form-email"])) {
         if (!empty($_POST["settings-form-email"])) {
             if ($_POST["settings-form-email"] !== $_SESSION["userdata"]["email_address"]) {
-                if (filter_var($_POST["register-form-email"], FILTER_VALIDATE_EMAIL)) {
-                    if (AssemblDB::getUIDByEmail($_POST["register-form-email"]) === false) {
+                if (filter_var($_POST["settings-form-email"], FILTER_VALIDATE_EMAIL)) {
+                    if (AssemblDB::getUIDByEmail($_POST["settings-form-email"]) === false) {
                         $sql = "UPDATE `users`.`userdata` SET `email_address`='".AssemblDB::makeSafe($_POST["settings-form-email"], $connection)."' WHERE `uid`='".AssemblDB::makeSafe($_SESSION["userdata"]["uid"], $connection)."' LIMIT 1";
                         $result = mysqli_query($connection, $sql);
                     }
