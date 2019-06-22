@@ -38,7 +38,6 @@
                     }
                     else {
                         $birthDate = date('Y-m-d', $birthDate);
-                        $_SESSION["settings_errors"]["birth-date"] = $birthDate;
                         $sql = "UPDATE `users`.`userdata` SET `birth_date`=STR_TO_DATE('".AssemblDB::makeSafe($birthDate, $connection)."', '%Y-%m-%d') WHERE `uid`='".AssemblDB::makeSafe($_SESSION["userdata"]["uid"], $connection)."' LIMIT 1";
                         $result = mysqli_query($connection, $sql);
                     }
