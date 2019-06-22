@@ -2,14 +2,14 @@
     require("import/sessionstart.php");
     require_once("import/continuer.php");
 
-    session_unset();
-    session_destroy();
-    session_write_close();
-
     if (!isset($_SESSION["signed_in"])) {
         header("Location: /signin/?continue=".$encodedContinueUrl);
         die();
     }
+
+    session_unset();
+    session_destroy();
+    session_write_close();
 ?>
 <!DOCTYPE html>
 <html lang="en">
