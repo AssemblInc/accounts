@@ -111,5 +111,54 @@
                 </div>
             </div>
         </div>
+        <script>
+        function confirmOnPageExit(e) {
+            e = e || window.event;
+            var message = "Changes you made may not be saved.";
+            if (e) {
+                e.returnValue = message;
+            }
+            return message;
+        }
+
+        function enableExitConfirmation() {
+            console.log("Exit Confirmation enabled");
+            window.onbeforeunload = confirmOnPageExit;
+        }
+
+        function disableExitConfirmation() {
+            console.log("Exit Confirmation disabled");
+            window.onbeforeunload = null;
+        }
+
+        function setUpPageExitConfirmation() {
+            var elems = [];
+            elems = elems.concat([].slice.call(document.getElementsByTagName("input")));
+            elems = elems.concat([].slice.call(document.getElementsByTagName("textarea")));
+            elems = elems.concat([].slice.call(document.getElementsByTagName("select")));
+            elems = elems.concat([].slice.call(document.getElementsByTagName("form")));
+            for (var i = 0; i < elems.length; i++) {
+                switch(elems[i].tagName.toLowerCase()) {
+                    case "input":
+                    case "textarea":
+                        if (elems[i].getAttribute("type") != "file") {
+                            elems[i].addEventListener("input", enableExitConfirmation);
+                        }
+                        else {
+                            elems[i].addEventListener("change", enableExitConfirmation);
+                        }
+                        break;
+                    case "select":
+                        elems[i].addEventListener("change", enableExitConfirmation);
+                        break;
+                    case "form":
+                        elems[i].addEventListener("change", disableExitConfirmation);
+                        break;
+                }
+            }
+        }
+
+        setUpPageExitConfirmation();
+        </script>
     </body>
 </html>
