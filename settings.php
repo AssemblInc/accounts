@@ -70,7 +70,7 @@
 
                             <label for="settings-form-birth-date">Birth date</label>
                             <div class="form-error"><?PHP if (isset($_SESSION["settings_errors"]) && isset($_SESSION["settings_errors"]["birth-date"]) && !empty($_SESSION["settings_errors"]["birth-date"])) { echo $_SESSION["settings_errors"]["birth-date"]; } ?></div>
-                            <input class="assembl-input" type="date" id="settings-form-birth-date" name="settings-form-birth-date" value="<?PHP echo $_SESSION["userdata"]["birthdate"]; ?>" placeholder="YYYY-MM-DD" />
+                            <input class="assembl-input" type="date" id="settings-form-birth-date" name="settings-form-birth-date" value="<?PHP echo $_SESSION["userdata"]["birth_date"]; ?>" placeholder="YYYY-MM-DD" />
                             <script> setMinMaxBirthDate(); </script>
 
                             <label for="settings-form-email">E-mail address</label>
@@ -79,7 +79,7 @@
 
                             <label for="settings-form-org-affiliation">Position &amp; Organization</label>
                             <div class="form-error"><?PHP if (isset($_SESSION["settings_errors"]) && isset($_SESSION["settings_errors"]["org-affiliation"]) && !empty($_SESSION["settings_errors"]["org-affiliation"])) { echo $_SESSION["settings_errors"]["org-affiliation"]; } ?></div>
-                            <input class="assembl-input" type="text" maxlength="100" id="settings-form-org-affiliation" name="settings-form-org-affiliation" value="<?PHP echo $_SESSION["userdata"]["org_affiliation"]; ?>" placeholder="Researcher at Random Institute" />
+                            <input class="assembl-input" type="text" maxlength="100" id="settings-form-org-affiliation" name="settings-form-org-affiliation" value="<?PHP echo $_SESSION["userdata"]["org_affiliation"]; ?>" placeholder="e.g. Researcher at Random Institute" />
                         </fieldset>
                         <fieldset>
                             <legend>Connections</legend>
