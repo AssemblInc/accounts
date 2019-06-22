@@ -24,7 +24,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title>Sign in to Assembl</title>
+        <title><?PHP echo ((isset($_SESSION["signed_in"]) && $_SESSION["signed_in"] === true) ? "You are signed in to Assembl" : "Sign in to Assembl"); ?></title>
         <base href="https://accounts.assembl.ch/" />
         <link rel="stylesheet" href="/loginstyles.css" />
 		<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
