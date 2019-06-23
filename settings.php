@@ -85,8 +85,24 @@
                             <legend>Connections</legend>
 
                             <label for="settings-form-orcid">ORCID iD</label>
-                            <input class="assembl-input" type="text" disabled value="UNDER CONSTRUCTION" />
-
+                            <?PHP
+                                require("import/assembldb.php");
+                                $connection = AssemblDB::getAccountsConnection();
+                                $sql = "SELECT * FROM `users`.`orcid` WHERE `uid`='".AssemblDB::makeSafe($_SESSION["userdata"]["uid"], $connection)."' LIMIT 1";
+                                $result = mysqli_query($connection, $sql);
+                                $orcidData = mysqli_fetch_assoc($result);
+                                if (!empty($orcidData["orcid_id"])) {
+                                    ?>
+                                        <input class="assembl-input" readonly type="text" value="<?PHP echo $orcidData["orcid_id"]; ?>" />
+                                        <small><a href="/disconnect/?s=orcid">Disconnect</a></small>
+                                    <?PHP
+                                }
+                                else {
+                                    ?>
+                                        <a href="/connect/?s=orcid">Connect your ORCID iD</a>
+                                    <?PHP
+                                }
+                            ?>
                         </fieldset>
                         <fieldset>
                             <legend>Security</legend>
@@ -96,13 +112,11 @@
                             <br />
 
                             <a href="/history/?of=logins">View login history</a>
-
                         </fieldset>
                         <fieldset>
                             <legend>Delete account</legend>
 
                             <a href="/delete/">Delete your account</a>
-
                         </fieldset>
 
                         <br />
