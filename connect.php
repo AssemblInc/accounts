@@ -1,6 +1,5 @@
 <?PHP
     require("import/sessionstart.php");
-    require_once("import/continuer.php");
     require("api/requirelogin.php");
 
     if (!isset($_GET["s"]) || empty($_GET["s"])) {

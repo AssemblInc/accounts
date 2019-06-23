@@ -44,7 +44,7 @@
                                 }
                             }
                             else {
-                                die("SQL error: ".mysqli_error($connection));
+                                die("SQL error");
                             }
                         }
                         else {
