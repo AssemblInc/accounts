@@ -20,7 +20,7 @@
         
         $returnData = array();
         $returnData["assembl_id"] = $_SESSION["userdata"]["uid"];
-        $returnData["orcid_id"] = $orcidData["orcid_id"];
+        $returnData["orcid"] = $orcidData["orcid_id"];
         $returnData["token_type"] = $orcidData["orcid_token_type"];
         $returnData["access_token"] = $orcidData["orcid_access_token"];
         $returnData["refresh_token"] = $orcidData["orcid_refresh_token"];
