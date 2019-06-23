@@ -311,6 +311,10 @@ input[type=password] {
     min-width: 110px;
 }
 
+.assembl-btn.no-height-limit {
+    height: auto;
+}
+
 .below-submit {
     font-size: small;
     margin-top: 10px;
