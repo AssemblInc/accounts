@@ -103,7 +103,7 @@
                             <input class="assembl-input" type="password" maxlength="72" id="register-form-password-check" name="register-form-password-check" />
 
                             <br />
-                            <div style="text-align: center;">
+                            <div style="text-align: center; white-space: nowrap;">
                                 <div class="form-error centered"><?PHP if (isset($_SESSION["register_errors"]) && isset($_SESSION["register_errors"]["terms"]) && !empty($_SESSION["register_errors"]["terms"])) { echo $_SESSION["register_errors"]["terms"]; } ?></div>
                                 <input type="checkbox" id="register-form-terms" name="register-form-terms" value="true" <?PHP if (isset($_SESSION["register_details"]) && isset($_SESSION["register_details"]["terms"]) && $_SESSION["register_details"]["terms"] === true) { echo "checked "; } ?>/><label class="forcheckbox" for="register-form-terms">I agree to the <a href="https://assembl.ch/terms/" target="_blank" onclick="seeTerms(event);">terms &amp; conditions</a></label>
                             </div>
