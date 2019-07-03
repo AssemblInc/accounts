@@ -44,8 +44,13 @@
                     <script src="/import/loader.js"></script>
                     <h1>Assembl</h1>
                     <hr />
-                    <p><small>You have been signed out from your Assembl account.</small></p>
-                    <a class="assembl-btn full-width" href="/signin/?continue=<?PHP echo $encodedContinueUrl; ?>">Sign in with a different account</a>
+                    <?PHP if (!isset($_GET["del"])) { ?>
+                        <p><small>You have been signed out from your Assembl account.</small></p>
+                        <a class="assembl-btn full-width" href="/signin/?continue=<?PHP echo $encodedContinueUrl; ?>">Sign in with a different account</a>
+                    <?PHP } else { ?>
+                        <p><small>Your account has been deleted and you have been signed out.</small></p>
+                        <a class="assembl-btn full-width" href="/">Continue</a>
+                    <?PHP } ?>
                 </div>
             </div>
         </div>
