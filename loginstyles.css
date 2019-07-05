@@ -41,7 +41,6 @@ a:not(.assembl-btn):hover, a:not(.assembl-btn):focus, a:not(.assembl-btn):active
     text-decoration: underline;
 	outline: 0;
 }
-
 .signin-table {
     display: table;
     height: 100%;
@@ -323,6 +322,32 @@ input[type=password] {
     font-size: small;
     margin-top: 10px;
     height: 12px;
+}
+
+.details-table {
+    font-size: small;
+    text-align: left;
+}
+
+.details-table tr.top-row td {
+    padding-top: 24px;
+}
+
+.details-table td {
+    vertical-align: top;
+}
+
+.details-table td.image {
+    text-align: center;
+    vertical-align: middle;
+    padding: 12px 16px 12px 0px;
+}
+
+.details-table td.image img {
+    width: 26px;
+    height: 26px;
+    user-select: none;
+    pointer-events: none;
 }
 
 @keyframes rotate {
