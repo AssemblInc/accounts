@@ -1,4 +1,4 @@
 <?PHP
-    header("Location: https://accounts.assembl.ch/signin/?".http_build_query($_GET));
+    header("Location: https://accounts.assembl.net/signin/?".http_build_query($_GET));
     exit();
 ?>

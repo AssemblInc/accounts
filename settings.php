@@ -4,18 +4,18 @@
     require_once("api/requirelogin.php");
 
     function encodeURIComponent($str) {
-		$revert = array('%21'=>'!', '%2A'=>'*', '%27'=>"'", '%28'=>'(', '%29'=>')');
-		return strtr(rawurlencode($str), $revert);
-	}
+        $revert = array('%21'=>'!', '%2A'=>'*', '%27'=>"'", '%28'=>'(', '%29'=>')');
+        return strtr(rawurlencode($str), $revert);
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8" />
         <title>Assembl Account Settings</title>
-        <base href="https://accounts.assembl.ch/" />
+        <base href="https://accounts.assembl.net/" />
         <link rel="stylesheet" href="/loginstyles.css" />
-		<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
         <link rel="icon" type="image/ico" href="/favicon.ico" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#193864" />
@@ -37,10 +37,10 @@
             var yyyy = date.getFullYear();
             if(dd<10){
                 dd='0'+dd;
-            } 
+            }
             if(mm<10){
                 mm='0'+mm;
-            } 
+            }
 
             var today = yyyy+'-'+mm+'-'+dd;
             var longago = (yyyy - 150)+'-'+mm+'-'+dd;
@@ -107,8 +107,8 @@
                         <fieldset>
                             <legend>Security</legend>
 
-                            <a href="/passwordreset/?email=<?PHP echo encodeURIComponent($_SESSION["userdata"]["email_address"]); ?>&continue=https%3A%2F%2Faccounts.assembl.ch%2Fsettings%2F">Change your password</a>
-                            
+                            <a href="/passwordreset/?email=<?PHP echo encodeURIComponent($_SESSION["userdata"]["email_address"]); ?>&continue=https%3A%2F%2Faccounts.assembl.net%2Fsettings%2F">Change your password</a>
+
                             <br />
 
                             <a href="/history/?of=logins">View login history</a>

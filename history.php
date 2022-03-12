@@ -7,9 +7,9 @@
     <head>
         <meta charset="utf-8" />
         <title>Account History</title>
-        <base href="https://accounts.assembl.ch/" />
+        <base href="https://accounts.assembl.net/" />
         <link rel="stylesheet" href="/loginstyles.css" />
-		<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
         <link rel="icon" type="image/ico" href="/favicon.ico" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#193864" />
@@ -45,7 +45,7 @@
                                 $connection = AssemblDB::getLoginsConnection();
                                 $sql = "SELECT * FROM `users`.`logins` WHERE `uid`='".AssemblDB::makeSafe($_SESSION["userdata"]["uid"], $connection)."' ORDER BY login_id DESC";
                                 $result = mysqli_query($connection, $sql);
-                                
+
                                 if (mysqli_num_rows($result) > 0) {
                                     $logins = array();
                                     while($row = mysqli_fetch_assoc($result)) {
@@ -160,7 +160,7 @@
                             }
                             fixUserAgents();
                         </script>
-                    <?PHP } else { 
+                    <?PHP } else {
                         header("Location: /settings/");
                         die();
                     } ?>

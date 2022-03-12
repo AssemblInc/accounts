@@ -19,9 +19,9 @@
     <head>
         <meta charset="utf-8" />
         <title>Register for an Assembl account</title>
-        <base href="https://accounts.assembl.ch/" />
+        <base href="https://accounts.assembl.net/" />
         <link rel="stylesheet" href="/loginstyles.css" />
-		<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
         <link rel="icon" type="image/ico" href="/favicon.ico" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#193864" />
@@ -55,10 +55,10 @@
             var yyyy = date.getFullYear();
             if(dd<10){
                 dd='0'+dd;
-            } 
+            }
             if(mm<10){
                 mm='0'+mm;
-            } 
+            }
 
             var today = yyyy+'-'+mm+'-'+dd;
             var longago = (yyyy - 150)+'-'+mm+'-'+dd;
@@ -88,7 +88,7 @@
                             <label for="register-form-email">E-mail address</label>
                             <div class="form-error"><?PHP if (isset($_SESSION["register_errors"]) && isset($_SESSION["register_errors"]["email"]) && !empty($_SESSION["register_errors"]["email"])) { echo $_SESSION["register_errors"]["email"]; } ?></div>
                             <input class="assembl-input" type="email" maxlength="100" id="register-form-email" name="register-form-email" value="<?PHP if (isset($_SESSION["register_details"]) && isset($_SESSION["register_details"]["email"]) && !empty($_SESSION["register_details"]["email"])) { echo $_SESSION["register_details"]["email"]; } ?>" placeholder="example@domain.com" />
-                            
+
                             <label for="register-form-birth-date">Birth date</label>
                             <div class="form-error"><?PHP if (isset($_SESSION["register_errors"]) && isset($_SESSION["register_errors"]["birth-date"]) && !empty($_SESSION["register_errors"]["birth-date"])) { echo $_SESSION["register_errors"]["birth-date"]; } ?></div>
                             <input class="assembl-input" type="date" id="register-form-birth-date" name="register-form-birth-date" value="<?PHP if (isset($_SESSION["register_details"]) && isset($_SESSION["register_details"]["birth-date"]) && !empty($_SESSION["register_details"]["birth-date"])) { echo $_SESSION["register_details"]["birth-date"]; } ?>" placeholder="YYYY-MM-DD" />
@@ -105,7 +105,7 @@
                             <br />
                             <div style="text-align: center; white-space: nowrap;">
                                 <div class="form-error centered"><?PHP if (isset($_SESSION["register_errors"]) && isset($_SESSION["register_errors"]["terms"]) && !empty($_SESSION["register_errors"]["terms"])) { echo $_SESSION["register_errors"]["terms"]; } ?></div>
-                                <input type="checkbox" id="register-form-terms" name="register-form-terms" value="true" <?PHP if (isset($_SESSION["register_details"]) && isset($_SESSION["register_details"]["terms"]) && $_SESSION["register_details"]["terms"] === true) { echo "checked "; } ?>/><label class="forcheckbox" for="register-form-terms">I agree to the <a href="https://assembl.ch/terms/" target="_blank" onclick="seeTerms(event);">terms &amp; conditions</a></label>
+                                <input type="checkbox" id="register-form-terms" name="register-form-terms" value="true" <?PHP if (isset($_SESSION["register_details"]) && isset($_SESSION["register_details"]["terms"]) && $_SESSION["register_details"]["terms"] === true) { echo "checked "; } ?>/><label class="forcheckbox" for="register-form-terms">I agree to the <a href="https://assembl.net/terms/" target="_blank" onclick="seeTerms(event);">terms &amp; conditions</a></label>
                             </div>
 
                             <br />
@@ -129,7 +129,7 @@
                             <label for="verification-form-code">Code</label>
                             <div class="form-error"><?PHP if (isset($_SESSION["verification_errors"]) && isset($_SESSION["verification_errors"]["code"]) && !empty($_SESSION["verification_errors"]["code"])) { echo $_SESSION["verification_errors"]["code"]; } ?></div>
                             <input class="assembl-input" type="number" id="verification-form-code" name="verification-form-code" />
-                            
+
                             <br />
                             <input type="submit" class="assembl-btn full-width" id="verification-form-submit" name="verification-form-submit" value="Proceed" />
                         </form>
@@ -139,7 +139,7 @@
                         <p><b>Your account has been set up.</b></p>
                         <p><small>You can now sign in.</small></p>
                         <a class="assembl-btn full-width" href="/signin/?continue=<?PHP echo $encodedContinueUrl; ?>">Sign in now</a>
-                    <?PHP 
+                    <?PHP
                             unset($_SESSION["account_created"]);
                         } else {
                         $_SESSION["register_details"] = array();
@@ -210,6 +210,6 @@
         } ?>
     </body>
 </html>
-<?PHP 
+<?PHP
     $_SESSION["register_errors"] = array();
 ?>

@@ -18,7 +18,7 @@
                         'client_secret' => '***REMOVED_ORCID_CLIENT_SECRET***',
                         'grant_type' => 'authorization_code',
                         'code' => $_GET["code"],
-                        'redirect_uri' => 'https://accounts.assembl.ch/callback/connect-cb/?s=orcid'
+                        'redirect_uri' => 'https://accounts.assembl.net/callback/connect-cb/?s=orcid'
                     )));
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                     $response = curl_exec($ch);
@@ -30,10 +30,10 @@
 
                             require_once("../import/assembldb.php");
                             $connection = AssemblDB::getAccountsConnection();
-                            
+
                             $sql = "UPDATE `users`.`orcid` SET `orcid_id`='".AssemblDB::makeSafe($jsonResponse["orcid"], $connection)."', `orcid_token_type`='".AssemblDB::makeSafe($jsonResponse["token_type"], $connection)."', `orcid_access_token`='".AssemblDB::makeSafe($jsonResponse["access_token"], $connection)."', `orcid_refresh_token`='".AssemblDB::makeSafe($jsonResponse["refresh_token"], $connection)."', `orcid_expires_on`='".AssemblDB::makeSafe($expiresOn, $connection)."', `orcid_scope`='".AssemblDB::makeSafe($jsonResponse["scope"], $connection)."', `connected_on`=CURRENT_TIMESTAMP() WHERE `uid`='".AssemblDB::makeSafe($_SESSION["userdata"]["uid"], $connection)."' LIMIT 1";
                             $result = mysqli_query($connection, $sql);
-                            
+
                             if ($result !== false) {
                                 if (mysqli_affected_rows($connection) > 0) {
                                     header("Location: /settings/");

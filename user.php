@@ -3,7 +3,7 @@
 
     if (!isset($_GET["id"]) || empty($_GET["id"])) {
         if (!isset($_SESSION["signed_in"]) || $_SESSION["signed_in"] !== true) {
-            header("Location: /signin/?continue=https://accounts.assembl.ch/user/");
+            header("Location: /signin/?continue=https://accounts.assembl.net/user/");
             die();
         }
         else {
@@ -32,9 +32,9 @@
     <head>
         <meta charset="utf-8" />
         <title><?PHP echo $userData["name"]; ?>'s account - Assembl</title>
-        <base href="https://accounts.assembl.ch/" />
+        <base href="https://accounts.assembl.net/" />
         <link rel="stylesheet" href="/loginstyles.css" />
-		<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
         <link rel="icon" type="image/ico" href="/favicon.ico" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#193864" />

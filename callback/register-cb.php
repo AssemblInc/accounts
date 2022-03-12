@@ -6,9 +6,9 @@
     require("../import/sessionstart.php");
 
     function encodeURIComponent($str) {
-		$revert = array('%21'=>'!', '%2A'=>'*', '%27'=>"'", '%28'=>'(', '%29'=>')');
-		return strtr(rawurlencode($str), $revert);
-	}
+        $revert = array('%21'=>'!', '%2A'=>'*', '%27'=>"'", '%28'=>'(', '%29'=>')');
+        return strtr(rawurlencode($str), $revert);
+    }
 
     function sendVerifCode($code, $email, $name) {
         require_once('../import/phpmailer/PHPMailerAutoload.php');
@@ -17,16 +17,16 @@
         $mail = new PHPMailer;
 
         mailLogin($mail);
-        
+
         $mail->addAddress($email, $name);
-        
+
         $mail->isHTML(false);
         $mail->Subject = "Verify your e-mail address";
         $mail->Body = "Hi ".$name.",\n\nyou just signed up for an Assembl account. To verify your e-mail address, please enter the following code:\n\n".$code."\n\nKind regards,\nThe Assembl Team\n\n\nP.S.: if you did not sign up for an account, you can safely ignore this e-mail.";
 
         return $mail->send();
     }
-    
+
     if (intval($_GET["step"]) == 1) {
         $_SESSION["register_details"] = array();
         $_SESSION["register_errors"] = array();
@@ -234,7 +234,7 @@
             }
             else {
                 if (intval($_POST["verification-form-code"]) == $_SESSION["email_verif_code"]) {
-                    // proceed registering, code was correct. 
+                    // proceed registering, code was correct.
                 }
                 else {
                     $_SESSION["verification_incorrect_attempts"] += 1;
@@ -302,7 +302,7 @@
             if ($result === false) {
                 horriblyWrong();
             }
-            
+
             require("../import/sessionend.php");
             require("../import/sessionstart.php");
             $_SESSION["account_created"] = true;

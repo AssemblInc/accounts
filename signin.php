@@ -25,9 +25,9 @@
     <head>
         <meta charset="utf-8" />
         <title><?PHP echo ((isset($_SESSION["signed_in"]) && $_SESSION["signed_in"] === true) ? "You are signed in to Assembl" : "Sign in to Assembl"); ?></title>
-        <base href="https://accounts.assembl.ch/" />
+        <base href="https://accounts.assembl.net/" />
         <link rel="stylesheet" href="/loginstyles.css" />
-		<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
         <link rel="icon" type="image/ico" href="/favicon.ico" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#193864" />
@@ -63,7 +63,7 @@
                             <label for="signin-form-email">E-mail address</label>
                             <div class="form-error"><?PHP if (isset($_SESSION["signin_errors"]) && isset($_SESSION["signin_errors"]["email"]) && !empty($_SESSION["signin_errors"]["email"])) { echo $_SESSION["signin_errors"]["email"]; } ?></div>
                             <input class="assembl-input" type="email" maxlength="100" id="signin-form-email" name="signin-form-email" value="<?PHP if (isset($_SESSION["signin_details"]) && isset($_SESSION["signin_details"]["email"]) && !empty($_SESSION["signin_details"]["email"])) { echo $_SESSION["signin_details"]["email"]; } ?>" onkeyup="document.getElementById('passwordreset').setAttribute('href', '/passwordreset/?continue=<?PHP echo $encodedContinueUrl; ?>&email='+encodeURIComponent(this.value));" />
-                        
+
                             <label for="signin-form-password">Password</label>
                             <div class="form-error"><?PHP if (isset($_SESSION["signin_errors"]) && isset($_SESSION["signin_errors"]["password"]) && !empty($_SESSION["signin_errors"]["password"])) { echo $_SESSION["signin_errors"]["password"]; } ?></div>
                             <input class="assembl-input" type="password" maxlength="72" id="signin-form-password" name="signin-form-password" />
@@ -74,7 +74,7 @@
                                 <noscript><div class="form-error centered">Please disable NoScript to complete a captcha and prove you're not a bot.</div></noscript>
                                 <div class="g-recaptcha" data-sitekey="***REMOVED_G_RECAPTCHA_SITEKEY***" data-theme="light" data-size="normal" ></div>
                             <?PHP } ?>
-                            
+
                             <br />
                             <input type="submit" class="assembl-btn full-width" id="signin-form-submit" name="signin-form-submit" value="Sign in" />
                             <div class="below-submit">
@@ -99,6 +99,6 @@
         </div>
     </body>
 </html>
-<?PHP 
+<?PHP
     $_SESSION["signin_errors"] = array();
 ?>

@@ -6,9 +6,9 @@
     require("../import/sessionstart.php");
 
     function encodeURIComponent($str) {
-		$revert = array('%21'=>'!', '%2A'=>'*', '%27'=>"'", '%28'=>'(', '%29'=>')');
-		return strtr(rawurlencode($str), $revert);
-	}
+        $revert = array('%21'=>'!', '%2A'=>'*', '%27'=>"'", '%28'=>'(', '%29'=>')');
+        return strtr(rawurlencode($str), $revert);
+    }
 
     if ($_GET["step"] == "sendmail") {
         $_SESSION["reset_details"] = array();
@@ -68,12 +68,12 @@
                                     $mail = new PHPMailer;
 
                                     mailLogin($mail);
-                                    
+
                                     $mail->addAddress($userData["email_address"], $userData["name"]);
-                                    
+
                                     $mail->isHTML(false);
                                     $mail->Subject = "Reset the password for your Assembl account";
-                                    $mail->Body = "Hi ".$userData["name"].",\n\nhere is the link to reset the password for your Assembl account:\n\nhttps://accounts.assembl.ch/passwordreset/?step=code&code=".$resetCode."&continue=".encodeURIComponent($_GET["continue"])."\n\nThis link will be valid for two hours. If you did not request to reset your password, you can safely ignore this e-mail.\n\nKind regards,\nThe Assembl Team";
+                                    $mail->Body = "Hi ".$userData["name"].",\n\nhere is the link to reset the password for your Assembl account:\n\nhttps://accounts.assembl.net/passwordreset/?step=code&code=".$resetCode."&continue=".encodeURIComponent($_GET["continue"])."\n\nThis link will be valid for two hours. If you did not request to reset your password, you can safely ignore this e-mail.\n\nKind regards,\nThe Assembl Team";
 
                                     $sent = $mail->send();
 
@@ -135,7 +135,7 @@
                         else {
                             if ($_POST["reset-form-password"] === $_POST["reset-form-password-check"]) {
                                 $hashedPw = AssemblDB::hashPassword($_POST["reset-form-password"]);
-                                
+
                                 $connection = AssemblDB::getAccountsConnection();
                                 $sql = "SELECT password FROM `users`.`accounts` WHERE uid='".AssemblDB::makeSafe($_SESSION["pw_reset_uid"], $connection)."' LIMIT 1";
                                 $result = mysqli_query($connection, $sql);
@@ -155,12 +155,12 @@
                                         $mail = new PHPMailer;
 
                                         mailLogin($mail);
-                                        
+
                                         $mail->addAddress($userData["email_address"], $userData["name"]);
-                                        
+
                                         $mail->isHTML(false);
                                         $mail->Subject = "Your password has been changed";
-                                        $mail->Body = "Hi ".$userData["name"].",\n\nthe password for your Assembl account has just been changed. If this wasn't you, please reset your password at https://accounts.assembl.ch/passwordreset/. If this was you, you can safely ignore this e-mail.\n\nKind regards,\nThe Assembl Team";
+                                        $mail->Body = "Hi ".$userData["name"].",\n\nthe password for your Assembl account has just been changed. If this wasn't you, please reset your password at https://accounts.assembl.net/passwordreset/. If this was you, you can safely ignore this e-mail.\n\nKind regards,\nThe Assembl Team";
 
                                         $mail->send();
                                     }

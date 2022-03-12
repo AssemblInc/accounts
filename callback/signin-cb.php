@@ -6,9 +6,9 @@
     require("../import/sessionstart.php");
 
     function encodeURIComponent($str) {
-		$revert = array('%21'=>'!', '%2A'=>'*', '%27'=>"'", '%28'=>'(', '%29'=>')');
-		return strtr(rawurlencode($str), $revert);
-	}
+        $revert = array('%21'=>'!', '%2A'=>'*', '%27'=>"'", '%28'=>'(', '%29'=>')');
+        return strtr(rawurlencode($str), $revert);
+    }
 
     if ($_GET["step"] == "init") {
         $_SESSION["signin_details"] = array();
@@ -45,7 +45,7 @@
                     $remoteip = $_SERVER['REMOTE_ADDR'];
                 }
                 $data = array('secret' => '***REMOVED_G_RECAPTCHA_SECRET***', 'response' => $_POST["g-recaptcha-response"], 'remoteip' => $remoteip);
-    
+
                 // use key 'http' even if you send the request to https://...
                 $options = array(
                     'http' => array(
@@ -126,7 +126,7 @@
                                 // correct password and password does not require changing. Time to sign in!
                                 $sql = "INSERT INTO `users`.`logins` (uid, timestamp, ip_address, user_agent_key) VALUES ('".AssemblDB::makeSafe($uid, $connection)."', CURRENT_TIMESTAMP(), '".AssemblDB::makeSafe($_SERVER['REMOTE_ADDR'], $connection)."', '".$uaKey."')";
                                 $result = mysqli_query($connection, $sql);
-                                
+
                                 unset($_SESSION["signin_details"]);
                                 unset($_SESSION["signin_errors"]);
                                 if (isset($_SESSION["signin_captcha_required"])) {

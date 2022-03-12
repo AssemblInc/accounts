@@ -6,9 +6,9 @@
     <head>
         <meta charset="utf-8" />
         <title>Delete your Assembl account</title>
-        <base href="https://accounts.assembl.ch/" />
+        <base href="https://accounts.assembl.net/" />
         <link rel="stylesheet" href="/loginstyles.css" />
-		<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
         <link rel="icon" type="image/ico" href="/favicon.ico" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#193864" />
@@ -40,7 +40,7 @@
                         <label for="delete-form-confirm">Write DELETE below in all capital letters to confirm</label>
                         <div class="form-error"><?PHP if (isset($_SESSION["delete_errors"]) && isset($_SESSION["delete_errors"]["confirm"]) && !empty($_SESSION["delete_errors"]["confirm"])) { echo $_SESSION["delete_errors"]["confirm"]; } ?></div>
                         <input class="assembl-input" type="text" maxlength="24" id="delete-form-confirm" name="delete-form-confirm" />
-                        
+
                         <br />
                         <div style="text-align: center; white-space: nowrap;">
                             <div class="form-error centered"><?PHP if (isset($_SESSION["delete_errors"]) && isset($_SESSION["delete_errors"]["understand"]) && !empty($_SESSION["delete_errors"]["understand"])) { echo $_SESSION["delete_errors"]["understand"]; } ?></div>

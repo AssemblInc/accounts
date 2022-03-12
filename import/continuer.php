@@ -1,10 +1,10 @@
 <?PHP
     function encodeURIComponentC($str) {
-		$revert = array('%21'=>'!', '%2A'=>'*', '%27'=>"'", '%28'=>'(', '%29'=>')');
-		return strtr(rawurlencode($str), $revert);
-	}
+        $revert = array('%21'=>'!', '%2A'=>'*', '%27'=>"'", '%28'=>'(', '%29'=>')');
+        return strtr(rawurlencode($str), $revert);
+    }
 
-    $continueUrl = "https://accounts.assembl.ch/signin/?step=signed_in";
+    $continueUrl = "https://accounts.assembl.net/signin/?step=signed_in";
     $encodedContinueUrl = encodeURIComponentC($continueUrl);
     $urlSpecified = false;
     $signInReason = null;
@@ -15,15 +15,15 @@
             $continueUrl = $_GET["continue"];
             $encodedContinueUrl = encodeURIComponentC($continueUrl);
             $urlSpecified = true;
-            if ($parsedUrl["host"] != "accounts.assembl.ch") {
+            if ($parsedUrl["host"] != "accounts.assembl.net") {
                 $productName = $parsedUrl["host"];
                 switch($parsedUrl["host"]) {
-                    case "assembl.ch":
-                    case "www.assembl.ch":
-                    case "m.assembl.ch":
+                    case "assembl.net":
+                    case "www.assembl.net":
+                    case "m.assembl.net":
                         $productName = "Assembl";
                         break;
-                    case "chronos.assembl.ch":
+                    case "chronos.assembl.net":
                         $productName = "Assembl Chronos";
                         break;
                 }

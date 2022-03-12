@@ -8,9 +8,9 @@
     <head>
         <meta charset="utf-8" />
         <title>Reset your Assembl password</title>
-        <base href="https://accounts.assembl.ch/" />
+        <base href="https://accounts.assembl.net/" />
         <link rel="stylesheet" href="/loginstyles.css" />
-		<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
         <link rel="icon" type="image/ico" href="/favicon.ico" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#193864" />
@@ -46,7 +46,7 @@
                             <label for="reset-form-email">E-mail address</label>
                             <div class="form-error"><?PHP if (isset($_SESSION["reset_errors"]) && isset($_SESSION["reset_errors"]["email"]) && !empty($_SESSION["reset_errors"]["email"])) { echo $_SESSION["reset_errors"]["email"]; } ?></div>
                             <input class="assembl-input" type="email" maxlength="100" id="reset-form-email" name="reset-form-email" value="<?PHP if (isset($_SESSION["reset_details"]) && isset($_SESSION["reset_details"]["email"]) && !empty($_SESSION["reset_details"]["email"])) { echo $_SESSION["reset_details"]["email"]; } else if (isset($_GET["email"]) && !empty($_GET["email"])) { echo $_GET["email"]; } ?>" />
-                            
+
                             <br />
                             <div class="form-error centered" style="margin-bottom: 8px;"><?PHP if (isset($_SESSION["reset_errors"]) && isset($_SESSION["reset_errors"]["captcha"]) && !empty($_SESSION["reset_errors"]["captcha"])) { echo $_SESSION["reset_errors"]["captcha"]; } ?></div>
                             <noscript><div class="form-error centered">Please disable NoScript to complete a captcha and prove you're not a bot.</div></noscript>
@@ -55,7 +55,7 @@
                             <br />
                             <input type="submit" class="assembl-btn full-width" id="reset-form-submit" name="reset-form-submit" value="Send password reset e-mail" />
                             <div class="below-submit">
-                                <?PHP if (strpos($continueUrl, "accounts.assembl.ch/settings/") !== false) { ?>
+                                <?PHP if (strpos($continueUrl, "accounts.assembl.net/settings/") !== false) { ?>
                                     <div style="text-align: center; float: left; width: 100%;"><a href="/settings/">Back to settings</a></div>
                                 <?PHP } else { ?>
                                     <div style="text-align: center; float: left; width: 100%;"><a href="/signin/?continue=<?PHP echo $encodedContinueUrl; ?>">Back to sign in</a></div>
@@ -65,7 +65,7 @@
                     <?PHP } else if ($_GET["step"] == "mailsent" && isset($_SESSION["pw_reset_mail_sent"]) && $_SESSION["pw_reset_mail_sent"] === true) { ?>
                         <p><b>We've sent you a link to reset your password via your e-mail address.</b></p>
                         <p><small>You can now close this window.</small></p>
-                    <?PHP 
+                    <?PHP
                         } else if ($_GET["step"] == "code" && ((isset($_GET["code"]) && !empty($_GET["code"])) || (isset($_SESSION["pw_reset_uid"]) && !empty($_SESSION["pw_reset_uid"])))) {
                             require_once("import/assembldb.php");
                             $connection = AssemblDB::getAccountsConnection();
@@ -92,7 +92,7 @@
 
                                             <label for="reset-form-password-check">Confirm new password</label>
                                             <input class="assembl-input" type="password" maxlength="72" id="reset-form-password-check" name="reset-form-password-check" />
-                                        
+
                                             <br />
                                             <input type="submit" class="assembl-btn full-width" id="reset-form-submit" name="reset-form-submit" value="Reset password" />
                                         </form>
@@ -119,7 +119,7 @@
                             <p><small>You can now sign in using your new password.</small></p>
                             <a class="assembl-btn full-width" href="/signin/?continue=<?PHP echo $encodedContinueUrl; ?>">Sign in now</a>
                         <?PHP
-                            unset($_SESSION["pw_reset_success"]); 
+                            unset($_SESSION["pw_reset_success"]);
                         } else {
                             $_SESSION["reset_details"] = array();
                             $_SESSION["reset_errors"] = array();
@@ -133,6 +133,6 @@
         </div>
     </body>
 </html>
-<?PHP 
+<?PHP
     $_SESSION["reset_errors"] = array();
 ?>
